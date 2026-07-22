@@ -2,6 +2,10 @@
 // This file will contain types generated from the Supabase schema.
 // Generate with: supabase gen types typescript --local > src/supabase.ts
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* NOTE: This file will be auto-generated. The {} patterns are standard for
+ * Supabase generated types and match the expected JSON structure. */
+
 // Placeholder for generated types
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
@@ -18,4 +22,4 @@ export interface Database {
     };
   };
 }
-
+/* eslint-enable @typescript-eslint/no-empty-object-type */

@@ -14,7 +14,6 @@ function PlaceholderPage({ title }: { title: string }) {
         <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
         <p className="mt-2 text-gray-500">Module under development</p>
       </div>
-    </div>
   );
 }
 
@@ -36,9 +35,15 @@ const SchoolSelectorPage = lazy(() =>
   })),
 );
 const SchoolsPage = lazy(() =>
-  import('../../modules/schools/pages/schoolsPage').then((m) => ({
-    default: m.SchoolsPage,
+  import('../../modules/schools/pages/SchoolListPage').then((m) => ({
+    default: m.SchoolListPage,
   })),
+);
+
+const FinanceOverview = lazy(() =>
+  import('../../modules/finance/dashboard/financeDashboard').catch(
+    () => ({ default: () => <PlaceholderPage title="Finance Overview" /> }),
+  ),
 );
 
 // Loading fallback component
@@ -123,10 +128,3 @@ export function AppRouter(): ReactNode {
     </Suspense>
   );
 }
-
-const FinanceOverview = lazy(() =>
-  import('../../modules/finance/dashboard/financeDashboard').catch(
-    () => ({ default: () => <PlaceholderPage title="Finance Overview" /> }),
-  ),
-);
-

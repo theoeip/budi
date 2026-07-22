@@ -1,5 +1,7 @@
 // @budi/types — User and role types
 
+import type { SchoolProfile } from './school.types';
+
 /** User roles in the BUDI platform */
 export type UserRole = 'super_admin' | 'school_admin' | 'treasurer' | 'viewer';
 
@@ -40,10 +42,9 @@ export interface RolePermissions {
 /** Auth state for frontend context */
 export interface AuthState {
   user: UserProfile | null;
-  school: import('./school.types').SchoolProfile | null;
+  school: SchoolProfile | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   role: UserRole | null;
   permissions: RolePermissions | null;
 }
-

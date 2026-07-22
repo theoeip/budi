@@ -4,20 +4,15 @@ import { useAuth } from '@core/auth';
 import { Alert, Button, Card, Input } from '@shared/components';
 import { AuthLayout } from '@shared/layouts';
 import { useState, type FormEvent } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export function LoginPage() {
-  const { signIn, isLoading: authLoading } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { signIn, isLoading: _authLoading } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Redirect back to the page user tried to access, or to dashboard
-  const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

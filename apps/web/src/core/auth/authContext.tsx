@@ -30,7 +30,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-function mapSupabaseUserToProfile(user: User, session: Session | null): UserProfile | null {
+function mapSupabaseUserToProfile(user: User, _session: Session | null): UserProfile | null {
   if (!user) return null;
 
   const metadata = user.user_metadata ?? {};
@@ -65,6 +65,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = user !== null;
   const role: UserRole | null = user?.role ?? null;
   const permissions: RolePermissions | null = role ? getRolePermissions(role) : null;
+
+  // Resolve schools for super admin
+  const resolveUserSchools = useCallback(async (_user: User) => {
+    // TODO: Fetch schools from DB when available
+    // For now, placeholder
+    setUserSchools([]);
+  }, []);
 
   // Sign in with email and password
   const signIn = useCallback(
@@ -101,7 +108,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         return { error: 'An unexpected error occurred. Please try again.' };
       }
     },
-    [],
+    [resolveUserSchools],
   );
 
   // Sign out
@@ -127,13 +134,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Switch school (for super admin)
   const switchSchool = useCallback((newSchool: SchoolProfile) => {
     setSchool(newSchool);
-  }, []);
-
-  // Resolve schools for super admin
-  const resolveUserSchools = useCallback(async (_user: User) => {
-    // TODO: Fetch schools from DB when available
-    // For now, placeholder
-    setUserSchools([]);
   }, []);
 
   // Initialize auth state on mount (auto-login from session)

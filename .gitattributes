@@ -1,0 +1,53 @@
+# ==========================================
+# BUDI - Git Attributes
+# ==========================================
+
+# Auto detect text files
+* text=auto
+
+# Shell scripts
+*.sh text eol=lf
+
+# Source Code
+*.ts text
+*.tsx text
+*.js text
+*.jsx text
+*.mjs text
+*.cjs text
+
+# Config
+*.json text
+*.jsonc text
+*.yaml text
+*.yml text
+*.toml text
+*.ini text
+*.env.example text
+
+# Styles
+*.css text
+*.scss text
+
+# Markup
+*.html text
+*.md text
+*.sql text
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+
+# SVG tetap text agar mudah di-review
+*.svg text
+
+# Fonts
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary

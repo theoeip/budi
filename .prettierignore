@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.turbo/
+coverage/
+*.svg
+*.png
+*.jpg
+*.ico
+*.woff
+*.woff2
+pnpm-lock.yaml
+CHANGELOG.md
+

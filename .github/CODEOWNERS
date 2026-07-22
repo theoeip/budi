@@ -1,0 +1,35 @@
+# BUDI — Code Owners
+# Defines who is responsible for reviewing changes to specific files.
+
+# Global owners
+* @buditeam/core
+
+# Documentation
+docs/ @buditeam/docs
+*.md @buditeam/docs
+
+# Architecture decisions
+docs/decisions/ @buditeam/architects
+
+# Supabase / Database
+supabase/ @buditeam/backend
+docs/database/ @buditeam/backend
+
+# Frontend
+apps/web/ @buditeam/frontend
+packages/types/ @buditeam/frontend
+packages/utils/ @buditeam/frontend
+packages/config/ @buditeam/frontend
+
+# ESLint config
+packages/eslint-config/ @buditeam/tooling
+
+# CI/CD
+.github/ @buditeam/devops
+
+# Finance module
+apps/web/src/modules/finance/ @buditeam/finance
+
+# Security
+SECURITY.md @buditeam/security
+

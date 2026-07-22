@@ -1,0 +1,33 @@
+{
+  "name": "budi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "BUDI — Business & Unified Digital Information. Modular School Management Platform.",
+  "author": "BUDI Team",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "clean": "turbo clean && rm -rf node_modules",
+    "typecheck": "turbo typecheck",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:migrate": "supabase db push",
+    "db:types": "supabase gen types typescript --local > packages/types/src/supabase.ts"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.3"
+  }
+}
+

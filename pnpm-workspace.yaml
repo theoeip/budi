@@ -1,0 +1,7 @@
+# BUDI Workspace Configuration
+# Defines the monorepo packages and apps.
+
+packages:
+  - "apps/*"
+  - "packages/*"
+

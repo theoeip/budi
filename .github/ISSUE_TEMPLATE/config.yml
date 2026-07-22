@@ -1,0 +1,10 @@
+# BUDI — Issue Template Configuration
+
+blank_issues_enabled: false
+contact_links:
+  - name: BUDI Documentation
+    url: https://github.com/your-org/budi/tree/main/docs
+    about: Check the documentation before opening an issue.
+  - name: BUDI Discussions
+    url: https://github.com/your-org/budi/discussions
+    about: Ask questions and discuss features here.

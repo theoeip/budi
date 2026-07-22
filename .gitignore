@@ -1,0 +1,110 @@
+# BUDI — .gitignore
+
+# ==============================
+# DEPENDENCIES
+# ==============================
+node_modules/
+.pnp
+.pnp.js
+.pnp.cjs
+.yarn/
+.verdaccio/
+
+# ==============================
+# BUILD OUTPUTS
+# ==============================
+dist/
+build/
+.next/
+.vite/
+.turbo/
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ==============================
+# ENVIRONMENT FILES
+# ==============================
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+.env.staging.local
+
+# ==============================
+# IDE & EDITOR
+# ==============================
+.vscode/settings.json
+.vscode/*.xml
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# ==============================
+# OS FILES
+# ==============================
+.DS_Store
+Thumbs.db
+*.pdb
+*.dll
+*.so
+*.dylib
+Desktop.ini
+ehthumbs.db
+
+# ==============================
+# LOGS
+# ==============================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==============================
+# CACHE
+# ==============================
+.cache/
+.cache-loader/
+.tmp/
+tmp/
+.eslintcache
+.stylelintcache
+
+# ==============================
+# COVERAGE & TESTING
+# ==============================
+coverage/
+*.lcov
+.nyc_output/
+.react-email/
+
+# ==============================
+# SUPABASE
+# ==============================
+supabase/.temp/
+
+# ==============================
+# PACKAGE MANAGER
+# ==============================
+package-lock.json
+yarn.lock
+
+# ==============================
+# MISC
+# ==============================
+*.bak
+*.orig
+*.tgz
+out/
+!.env.example
+

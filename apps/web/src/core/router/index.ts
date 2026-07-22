@@ -35,6 +35,11 @@ const SchoolSelectorPage = lazy(() =>
     default: m.SchoolSelectorPage,
   })),
 );
+const SchoolsPage = lazy(() =>
+  import('../../modules/schools/pages/schoolsPage').then((m) => ({
+    default: m.SchoolsPage,
+  })),
+);
 
 // Loading fallback component
 function PageLoader() {
@@ -87,6 +92,16 @@ export function AppRouter(): ReactNode {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* === Schools Module Routes (Super Admin) === */}
+        <Route
+          path="/schools"
+          element={
+            <ProtectedRoute requiredRole={['super_admin']}>
+              <SchoolsPage />
             </ProtectedRoute>
           }
         />

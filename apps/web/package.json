@@ -19,11 +19,14 @@
     "@budi/config": "workspace:*",
     "@budi/types": "workspace:*",
     "@budi/utils": "workspace:*",
+    "@hookform/resolvers": "^5.4.0",
     "@supabase/supabase-js": "^2.47.12",
     "@tanstack/react-query": "^5.62.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.1"
+    "react-hook-form": "^7.82.0",
+    "react-router-dom": "^7.1.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",

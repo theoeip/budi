@@ -4,106 +4,86 @@
 
 ### Root Configuration ✅
 
-- [x] .editorconfig
-- [x] .gitignore (comprehensive)
-- [x] .prettierrc / .prettierignore
-- [x] eslint.config.js
-- [x] package.json (root)
-- [x] pnpm-workspace.yaml
-- [x] turbo.json
-- [x] tsconfig.base.json
-- [x] .env.example (comprehensive)
-- [x] .npmrc
+- [x] .editorconfig, .gitignore, .prettierrc, .npmrc, eslint.config.js
+- [x] Root package.json, pnpm-workspace.yaml, turbo.json, tsconfig.base.json
+- [x] .env.example, .gitattributes, .github/ (CI, templates, CODEOWNERS)
 
 ### Root Documentation ✅
 
-- [x] README.md (comprehensive)
-- [x] AI_CONTEXT.md
-- [x] PROJECT_STATUS.md
-- [x] ROADMAP.md
-- [x] CHANGELOG.md
-- [x] BUDI_MANIFEST.md
-- [x] CONTRIBUTING.md
-- [x] CODE_STYLE.md
+- [x] README.md, AI_CONTEXT.md, PROJECT_STATUS.md, ROADMAP.md
+- [x] CHANGELOG.md, BUDI_MANIFEST.md, CONTRIBUTING.md, CODE_STYLE.md
 
 ### docs/ Directory ✅
 
-- [x] docs/README.md
-- [x] docs/architecture.md (with Mermaid diagrams)
-- [x] docs/database.md
-- [x] docs/coding-standard.md
-- [x] docs/folder-structure.md
-- [x] docs/api-guideline.md
-- [x] docs/security.md
-- [x] docs/development-workflow.md
-- [x] docs/decisions/README.md + ADR-001
-- [x] docs/prompts/README.md + system-prompt.md
-- [x] docs/database/ (database-overview, finance-schema, relationship-diagram, rls-strategy,
-      migration-plan)
-- [x] docs/business/BUDI_FINANCE_SPEC.md
+- [x] Architecture (with Mermaid), Database, Coding Standard, Folder Structure
+- [x] API Guidelines, Security, Development Workflow
+- [x] Decisions (ADR-001), Prompts (system prompt)
+- [x] database/ (overview, finance-schema, relationship-diagram, rls-strategy, migration-plan)
+- [x] business/BUDI_FINANCE_SPEC.md (32-section BRS)
 
 ### supabase/ ✅
 
-- [x] supabase/README.md + config.toml + seed.sql + 6 migration files
+- [x] Supabase config, seed data, 6 migration files (001–006)
 
-### scripts/ & public/ ✅
+### scripts/, public/ ✅
 
-- [x] scripts/README.md + setup.sh
-- [x] public/branding/README.md + logo.svg + favicon.svg + app-icon.svg
+- [x] Automation scripts, branding assets (logo, favicon, icons)
 
 ### packages/ ✅
 
-- [x] @budi/types (school, user, finance, supabase types)
-- [x] @budi/utils (cn, format, date, permissions)
-- [x] @budi/config (roles, modules, navigation)
-- [x] @budi/eslint-config
+- [x] @budi/types, @budi/utils, @budi/config, @budi/eslint-config
 
 ### apps/web/ Setup ✅
 
-- [x] Vite + React + TS + Tailwind config
+- [x] Vite + React + TS + Tailwind w/ path aliases
 - [x] src/core/ (providers, router, theme, auth, permissions)
 - [x] src/shared/ (components, layouts, hooks, contexts, services, repositories, types, utils,
       constants, assets)
 - [x] src/modules/ (finance active, others placeholders)
-- [x] src/pages/ (dashboard, auth, errors)
+- [x] UI primitives: Button, Input, Card, Spinner, Alert
 
-### Sprint 1: Authentication ✅
+### Sprint 1: Auth & Routes ✅
 
-- [x] Auth Provider (Supabase Auth)
-- [x] Login Page
-- [x] Forgot Password Page
-- [x] School Selector Page
-- [x] Protected Route
-- [x] Login Route
-- [x] App Shell Layout
-- [x] Auth Layout
-- [x] Reusable UI (Button, Input, Card, Spinner, Alert)
+- [x] Auth Provider, Login Page, Forgot Password, School Selector
+- [x] Protected Route, Login Route, App Shell, Auth Layout
 
-### DevOps Setup ✅
+### DevOps ✅
 
-- [x] .gitignore (comprehensive — node_modules, dist, .env, cache, etc.)
-- [x] .env.example (all variables documented with descriptions)
-- [x] GitHub CI workflow (install, lint, typecheck, test, build, format, audit)
-- [x] PR template (structured checklist for code quality, testing, docs)
-- [x] Issue templates (bug report, feature request, config)
-- [x] CODEOWNERS (team-based ownership per file area)
-- [x] SECURITY.md (vulnerability reporting, secrets policy)
-- [x] LICENSE (MIT)
-- [x] Vitest + React Testing Library configuration
-- [x] Test folders scaffolded (apps/web/src/test, packages/\*/**tests**)
-- [x] Test setup file (setup.ts with jest-dom matchers)
-- [x] README.md (comprehensive — overview, tech stack, folder structure, setup, git workflow,
-      contributing, sprint status, roadmap)
-- [x] Updated TODO.md
+- [x] CI workflow, PR template, issue templates, SECURITY.md, LICENSE
+- [x] Vitest + RTL config, test setup
 
-## Sprint 2 — Next
+## Sprint 2.1.0 — School Management Foundation ✅
 
-- [ ] Database schema implementation in Supabase
-- [ ] RLS policies for tenant isolation
-- [ ] Seed data for development
+- [x] Dependencies: react-hook-form, @hookform/resolvers, zod
+- [x] School types enriched (school_code, education_level, city, province, postal_code,
+      principal_name)
+- [x] Supabase migration 007: school table enhancement + RLS functions & policies
+- [x] modules/schools/ folder structure (types/, services/, repositories/, hooks/, pages/,
+      components/)
+- [x] Zod validation schema (EducationLevel enum, school form)
+- [x] School Service (Supabase CRUD: list, getById, create, update, softDelete, restore,
+      toggleStatus)
+- [x] School Repository (TanStack Query: 7 hooks with cache invalidation)
+- [x] School Form Hook (React Hook Form + ZodResolver)
+- [x] Placeholder Schools page (lazy-loaded)
+- [x] `/schools` route registered (Super Admin only)
+- [x] PROJECT_STATUS.md updated
+- [x] CHANGELOG.md updated (v0.2.0)
 
-## Sprint 3 — Next
+## Sprint 2.1.1 — Next (School CRUD UI)
 
-- [ ] Finance Module — Transactions Service & API
-- [ ] Finance Module — Categories Service & API
-- [ ] Finance Module — Accounts Service & API
+- [ ] School list view with DataTable (sort, search, paginate)
+- [ ] School create form
+- [ ] School edit form (pre-populated)
+- [ ] School detail view
+- [ ] School soft-delete with confirm dialog
+- [ ] School restore from trash
+- [ ] Active/inactive toggle
+
+## Future Sprints
+
+- [ ] v0.3.0: Database & Auth (Supabase setup, RLS enforcement)
+- [ ] v0.4.0: Finance Module — API
+- [ ] v0.5.0: Finance Module — UI
+- [ ] v0.6.0: Finance Module — Reports
+- [ ] v1.0.0: Production Launch

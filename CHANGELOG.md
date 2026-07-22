@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.0] — 2025-01-16
+
+### Added
+
+- **School Management Module Foundation**
+  - Feature-based module structure under `modules/schools/`
+  - School types enriched with: `school_code`, `education_level`, `city`, `province`, `postal_code`, `principal_name`
+  - Zod validation schema for school forms with Indonesian locale error messages
+  - Supabase migration 007: schools table enhancement with new columns and RLS policies
+  - RLS helper functions: `auth.current_school_id()`, `auth.current_role_code()`, `auth.is_super_admin()`
+  - RLS policies for schools table (super_admin full access, authenticated select, school_admin update)
+  - School service with full CRUD operations (list, getById, create, update, softDelete, restore, toggleStatus)
+  - TanStack Query repository with 7 hooks (useSchools, useSchool, useCreateSchool, useUpdateSchool, useDeleteSchool, useRestoreSchool, useToggleSchoolStatus)
+  - React Hook Form wrapper with Zod resolver
+  - Placeholder Schools page with loading state
+  - `/schools` route registered in the router (Super Admin only, lazy-loaded)
+
+- **Dependencies**
+  - Added `react-hook-form`, `@hookform/resolvers`, `zod` to `@budi/web`
+
+### Notes
+- This is the foundation phase for School Management. CRUD UI will be implemented in Sprint 2.1.1.
+- No business logic from other modules was modified.
+- The Finance module remains unchanged.
+
+---
+
 ## [0.1.0] — 2025-01-15
 
 ### Added

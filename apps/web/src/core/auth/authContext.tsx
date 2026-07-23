@@ -1,11 +1,12 @@
-// Auth Context — Authentication state management with Supabase Auth.
+// Auth Context — Authentication state management
 // Handles session management, auto-login, role resolution, and school context.
+// Delegates all Supabase Auth operations to AuthRepository.
 
 import type { RolePermissions, SchoolProfile, UserProfile, UserRole } from '@budi/types';
 import { getRolePermissions } from '@budi/utils/permissions';
-import { supabase } from '@core/providers/supabaseProvider';
 import type { Session, User } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import { authRepository } from '../../repositories/authRepository';
 
 /**
  * Authentication context value interface.
@@ -52,8 +53,9 @@ function mapSupabaseUserToProfile(user: User, _session: Session | null): UserPro
 }
 
 /**
- * Authentication provider — wraps the application with Supabase Auth.
+ * Authentication provider — wraps the application with AuthContext.
  * Handles session persistence, auto-login, and role resolution.
+ * All Supabase Auth communication goes through AuthRepository.
  */
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -77,22 +79,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signIn = useCallback(
     async (email: string, password: string): Promise<{ error?: string }> => {
       try {
-        const { data, error: signInError } = await supabase.auth.signInWithPassword({
-          email: email.trim().toLowerCase(),
-          password,
-        });
+        const result = await authRepository.signIn(email, password);
 
-        if (signInError) {
-          return { error: signInError.message };
+        if (result.error) {
+          return { error: result.error };
         }
 
-        if (data.session) {
-          const profile = mapSupabaseUserToProfile(data.user, data.session);
+        if (result.session) {
+          const profile = mapSupabaseUserToProfile(result.session.user, result.session);
           setUser(profile);
 
           // If super admin, resolve schools
           if (profile?.role === 'super_admin') {
-            await resolveUserSchools(data.user);
+            await resolveUserSchools(result.session.user);
           } else if (profile?.school_id) {
             setSchool({
               id: profile.school_id,
@@ -113,7 +112,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Sign out
   const signOut = useCallback(async () => {
-    await supabase.auth.signOut();
+    await authRepository.signOut();
     setUser(null);
     setSchool(null);
     setUserSchools([]);
@@ -122,9 +121,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Reset password (forgot password flow)
   const resetPassword = useCallback(async (email: string): Promise<{ error?: string }> => {
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-        redirectTo: `${window.location.origin}/auth/login`,
-      });
+      const { error } = await authRepository.resetPassword(email);
       return error ? { error: error.message } : {};
     } catch {
       return { error: 'An unexpected error occurred. Please try again.' };
@@ -145,7 +142,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         // Get current session
         const {
           data: { session },
-        } = await supabase.auth.getSession();
+        } = await authRepository.getSession();
 
         if (session && mounted) {
           const profile = mapSupabaseUserToProfile(session.user, session);
@@ -174,9 +171,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     initialize();
 
     // Listen for auth state changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const subscription = authRepository.onAuthStateChange(async (_event, session) => {
       if (!mounted) return;
 
       if (session) {

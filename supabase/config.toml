@@ -1,5 +1,4 @@
 # BUDI Supabase Configuration
-# Refer to https://supabase.com/docs/reference/cli/config for more details
 
 project_id = "budi"
 
@@ -12,20 +11,15 @@ enable_signup = true
 
 [auth.email]
 enable_signup = true
-enable_autoconfirm = true
-secure_email_change = true
 
 [db]
-# Managed via Supabase dashboard
 port = 54322
 
 [api]
 port = 54321
-max_request_size = 10_000_000
 
 [analytics]
 enabled = false
 
 [storage]
 enabled = false
-

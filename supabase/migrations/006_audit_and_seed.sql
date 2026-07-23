@@ -1,4 +1,3 @@
--- BUDI Finance Module — Migration 006: Audit & Seed Data
 -- Creates audit logging, RLS helper functions, and seed data.
 -- Dependencies: Migration 001 (core tables)
 
@@ -27,11 +26,11 @@ CREATE INDEX idx_audit_logs_action ON audit_logs(action);
 CREATE INDEX idx_audit_logs_created_at ON audit_logs(school_id, created_at DESC);
 
 -- ============================================================
--- 2. RLS Helper Functions
+-- 2. RLS Helper Functions (public schema — compatible with Supabase Cloud)
 -- ============================================================
 
 -- Get current user's active school_id
-CREATE OR REPLACE FUNCTION auth.current_school_id()
+CREATE OR REPLACE FUNCTION public.current_school_id()
 RETURNS UUID
 LANGUAGE SQL
 STABLE
@@ -44,7 +43,7 @@ AS $$
 $$;
 
 -- Get current user's role code for their active school
-CREATE OR REPLACE FUNCTION auth.current_role_code()
+CREATE OR REPLACE FUNCTION public.current_role_code()
 RETURNS VARCHAR(50)
 LANGUAGE SQL
 STABLE
@@ -58,7 +57,7 @@ AS $$
 $$;
 
 -- Check if current user is super admin
-CREATE OR REPLACE FUNCTION auth.is_super_admin()
+CREATE OR REPLACE FUNCTION public.is_super_admin()
 RETURNS BOOLEAN
 LANGUAGE SQL
 STABLE
@@ -148,7 +147,7 @@ BEGIN
 
         -- Seed school
         INSERT INTO schools (id, name, slug, address, phone, email, currency, timezone)
-        VALUES (
+        SELECT
             '00000000-0000-0000-0000-000000000001',
             'SMA Negeri 1 Jakarta',
             'sman1-jkt',
@@ -157,8 +156,11 @@ BEGIN
             'info@sman1-jkt.sch.id',
             'IDR',
             'Asia/Jakarta'
-        )
-        ON CONFLICT (slug) DO NOTHING;
+        WHERE NOT EXISTS (
+            SELECT 1 FROM schools
+            WHERE slug = 'sman1-jkt'
+              AND deleted_at IS NULL
+        );
 
         -- Seed roles for existing profiles (if any)
         -- This is a placeholder — actual user assignment happens via the app

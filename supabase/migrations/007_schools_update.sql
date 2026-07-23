@@ -23,9 +23,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_schools_school_code
 ALTER TABLE schools ENABLE ROW LEVEL SECURITY;
 
 -- ============================================================
--- 3. RLS Helper Functions
+-- 3. RLS Helper Functions (public schema — compatible with Supabase Cloud)
 -- ============================================================
-CREATE OR REPLACE FUNCTION auth.current_school_id()
+CREATE OR REPLACE FUNCTION public.current_school_id()
 RETURNS UUID
 LANGUAGE SQL
 STABLE
@@ -37,7 +37,7 @@ AS $$
   LIMIT 1;
 $$;
 
-CREATE OR REPLACE FUNCTION auth.current_role_code()
+CREATE OR REPLACE FUNCTION public.current_role_code()
 RETURNS VARCHAR(50)
 LANGUAGE SQL
 STABLE
@@ -50,7 +50,7 @@ AS $$
   LIMIT 1;
 $$;
 
-CREATE OR REPLACE FUNCTION auth.is_super_admin()
+CREATE OR REPLACE FUNCTION public.is_super_admin()
 RETURNS BOOLEAN
 LANGUAGE SQL
 STABLE
@@ -66,23 +66,23 @@ AS $$
 $$;
 
 -- ============================================================
--- 4. RLS Policies for schools table
+-- 4. RLS Policies for schools table (all columns fully qualified)
 -- ============================================================
 
 -- Super admin: full access
 CREATE POLICY "super_admin_all_access_schools" ON schools
   FOR ALL
-  USING (auth.is_super_admin())
-  WITH CHECK (auth.is_super_admin());
+  USING (public.is_super_admin())
+  WITH CHECK (public.is_super_admin());
 
 -- All authenticated users: can read active schools (for their context)
 CREATE POLICY "authenticated_select_schools" ON schools
   FOR SELECT
   USING (
-    deleted_at IS NULL
+    schools.deleted_at IS NULL
     AND (
-      is_active = true
-      OR auth.is_super_admin()
+      schools.is_active = true
+      OR public.is_super_admin()
     )
   );
 
@@ -90,17 +90,18 @@ CREATE POLICY "authenticated_select_schools" ON schools
 CREATE POLICY "school_admin_update_school" ON schools
   FOR UPDATE
   USING (
-    id = auth.current_school_id()
+    schools.id = public.current_school_id()
     AND EXISTS (
-      SELECT 1 FROM public.school_users su
+      SELECT 1
+      FROM public.school_users su
       JOIN public.roles r ON r.id = su.role_id
       WHERE su.user_id = auth.uid()
-        AND su.school_id = id
+        AND su.school_id = schools.id
         AND r.code IN ('super_admin', 'school_admin')
         AND su.deleted_at IS NULL
     )
   )
-  WITH CHECK (id = auth.current_school_id());
+  WITH CHECK (schools.id = public.current_school_id());
 
 -- ============================================================
 -- 5. Auto-create default settings for new schools

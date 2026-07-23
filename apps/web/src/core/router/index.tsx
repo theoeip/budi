@@ -1,12 +1,11 @@
 // Core Router — Application route definitions
 // Uses React Router v7 with lazy loading for code splitting.
 
+import { LoginRoute, ProtectedRoute } from '@core/auth';
 import { lazy, Suspense, type ReactNode } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { ProtectedRoute, LoginRoute } from '@core/auth';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { RootRedirect } from './rootRedirect';
 
-// Fallback component for routes that haven't been created yet
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <div className="flex h-screen items-center justify-center">
@@ -14,14 +13,14 @@ function PlaceholderPage({ title }: { title: string }) {
         <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
         <p className="mt-2 text-gray-500">Module under development</p>
       </div>
+    </div>
   );
 }
 
-// Lazy-loaded page components for code splitting
 const DashboardPage = lazy(() =>
-  import('../../pages/dashboard/dashboardPage').catch(
-    () => ({ default: () => <PlaceholderPage title="Dashboard" /> }),
-  ),
+  import('../../pages/dashboard/dashboardPage').catch(() => ({
+    default: () => <PlaceholderPage title="Dashboard" />,
+  })),
 );
 const LoginPage = lazy(() =>
   import('../../pages/auth/loginPage').then((m) => ({ default: m.LoginPage })),
@@ -39,14 +38,12 @@ const SchoolsPage = lazy(() =>
     default: m.SchoolListPage,
   })),
 );
-
 const FinanceOverview = lazy(() =>
-  import('../../modules/finance/dashboard/financeDashboard').catch(
-    () => ({ default: () => <PlaceholderPage title="Finance Overview" /> }),
-  ),
+  import('../../modules/finance/dashboard/financeDashboard').catch(() => ({
+    default: () => <PlaceholderPage title="Finance Overview" />,
+  })),
 );
 
-// Loading fallback component
 function PageLoader() {
   return (
     <div className="flex h-screen items-center justify-center">
@@ -55,15 +52,10 @@ function PageLoader() {
   );
 }
 
-/**
- * Application router with lazy-loaded routes.
- * Each route is a separate chunk for optimal loading.
- */
 export function AppRouter(): ReactNode {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        {/* === Public Auth Routes === */}
         <Route
           path="/auth/login"
           element={
@@ -80,8 +72,6 @@ export function AppRouter(): ReactNode {
             </LoginRoute>
           }
         />
-
-        {/* === Super Admin Routes === */}
         <Route
           path="/school-select"
           element={
@@ -90,8 +80,6 @@ export function AppRouter(): ReactNode {
             </ProtectedRoute>
           }
         />
-
-        {/* === Protected Routes === */}
         <Route
           path="/dashboard"
           element={
@@ -100,8 +88,6 @@ export function AppRouter(): ReactNode {
             </ProtectedRoute>
           }
         />
-
-        {/* === Schools Module Routes (Super Admin) === */}
         <Route
           path="/schools"
           element={
@@ -110,8 +96,6 @@ export function AppRouter(): ReactNode {
             </ProtectedRoute>
           }
         />
-
-        {/* === Finance Module Routes (protected) === */}
         <Route
           path="/finance"
           element={
@@ -120,8 +104,6 @@ export function AppRouter(): ReactNode {
             </ProtectedRoute>
           }
         />
-
-        {/* === Root & Catch-all === */}
         <Route path="/" element={<RootRedirect />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

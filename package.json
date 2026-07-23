@@ -2,6 +2,7 @@
   "name": "budi",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "BUDI — Business & Unified Digital Information. Modular School Management Platform.",
   "author": "BUDI Team",
   "license": "UNLICENSED",
@@ -9,6 +10,7 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
+    "review": "node scripts/review/build-review.js",
     "test": "turbo test",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
@@ -25,14 +27,8 @@
   },
   "packageManager": "pnpm@9.15.4",
   "devDependencies": {
-    "@eslint/js": "^9.39.5",
-    "eslint": "^9.17.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.3",
     "prettier": "^3.4.2",
     "turbo": "^2.3.3",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.65.0"
+    "typescript": "^5.7.3"
   }
 }

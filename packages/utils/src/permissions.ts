@@ -1,6 +1,6 @@
 // Permission utility functions for role-based access control.
 
-import type { UserRole, RolePermissions } from '@budi/types';
+import type { RolePermissions, UserRole } from '@budi/types';
 
 /** Permission definitions for each role */
 const ROLE_PERMISSIONS: Record<UserRole, RolePermissions> = {
@@ -45,10 +45,13 @@ const ROLE_PERMISSIONS: Record<UserRole, RolePermissions> = {
 /**
  * Check if a role has a specific permission.
  */
-export function hasPermission(role: UserRole, permission: keyof RolePermissions): boolean {
+export type PermissionKey = Exclude<keyof RolePermissions, 'role'>;
+
+export function hasPermission(role: UserRole, permission: PermissionKey): boolean {
   const permissions = ROLE_PERMISSIONS[role];
   if (!permissions) return false;
-  return permissions[permission] ?? false;
+
+  return permissions[permission];
 }
 
 /**
@@ -76,4 +79,3 @@ export function canAccessModule(role: UserRole, module: string): boolean {
       return false;
   }
 }
-

@@ -48,24 +48,19 @@ export const schoolFormSchema = z.object({
     .min(1, 'Kode sekolah wajib diisi')
     .max(50, 'Kode sekolah maksimal 50 karakter'),
   education_level: z.enum(EDUCATION_LEVELS, { message: 'Pilih jenjang pendidikan' }),
-  email: z.string().email('Format email tidak valid').or(z.literal('')).optional().default(''),
-  phone: z.string().max(50, 'Nomor telepon maksimal 50 karakter').optional().default(''),
-  address: z.string().max(500, 'Alamat maksimal 500 karakter').optional().default(''),
-  city: z.string().max(100, 'Kota maksimal 100 karakter').optional().default(''),
-  province: z.string().max(100, 'Provinsi maksimal 100 karakter').optional().default(''),
+  email: z.string().email('Format email tidak valid').or(z.literal('')).default(''),
+  phone: z.string().max(50, 'Nomor telepon maksimal 50 karakter').default(''),
+  address: z.string().max(500, 'Alamat maksimal 500 karakter').default(''),
+  city: z.string().max(100, 'Kota maksimal 100 karakter').default(''),
+  province: z.string().max(100, 'Provinsi maksimal 100 karakter').default(''),
   postal_code: z
     .string()
     .regex(/^\d{5}$/, 'Kode pos harus 5 digit angka')
     .or(z.literal(''))
-    .optional()
     .default(''),
-  website: z.string().url('Format URL tidak valid').or(z.literal('')).optional().default(''),
-  principal_name: z
-    .string()
-    .max(255, 'Nama kepala sekolah maksimal 255 karakter')
-    .optional()
-    .default(''),
-  logo_url: z.string().optional().default(''),
+  website: z.string().url('Format URL tidak valid').or(z.literal('')).default(''),
+  principal_name: z.string().max(255, 'Nama kepala sekolah maksimal 255 karakter').default(''),
+  logo_url: z.string().default(''),
   is_active: z.boolean().default(true),
 });
 

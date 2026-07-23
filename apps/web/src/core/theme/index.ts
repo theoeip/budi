@@ -52,3 +52,6 @@ export const themeTokens = {
 
 export type ThemeTokens = typeof themeTokens;
 
+// Re-export ThemeProvider and useTheme from the providers layer
+// This ensures @core/theme is the canonical import path for theme consumers.
+export { ThemeProvider, useTheme } from '../providers/themeProvider';

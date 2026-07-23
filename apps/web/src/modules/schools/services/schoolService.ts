@@ -2,7 +2,11 @@
 // Provides data access layer for school CRUD operations.
 
 import type { School } from '@budi/types';
+import type { Database } from '@budi/types/supabase';
 import { supabase } from '@core/providers/supabaseProvider';
+
+type SchoolInsert = Database['public']['Tables']['schools']['Insert'];
+type SchoolUpdate = Database['public']['Tables']['schools']['Update'];
 
 /**
  * Service for managing school (tenant) data.
@@ -47,7 +51,7 @@ export const schoolService = {
   /**
    * Creates a new school record.
    */
-  async create(input: Partial<School>): Promise<School> {
+  async create(input: SchoolInsert): Promise<School> {
     const { data, error } = await supabase.from('schools').insert(input).select().single();
 
     if (error) {
@@ -60,7 +64,7 @@ export const schoolService = {
   /**
    * Updates an existing school record.
    */
-  async update(id: string, input: Partial<School>): Promise<School> {
+  async update(id: string, input: SchoolUpdate): Promise<School> {
     const { data, error } = await supabase
       .from('schools')
       .update(input)
@@ -81,7 +85,7 @@ export const schoolService = {
   async softDelete(id: string): Promise<void> {
     const { error } = await supabase
       .from('schools')
-      .update({ deleted_at: new Date().toISOString() })
+      .update({ deleted_at: new Date().toISOString() } satisfies SchoolUpdate)
       .eq('id', id);
 
     if (error) {
@@ -93,7 +97,10 @@ export const schoolService = {
    * Restores a soft-deleted school by clearing its deleted_at timestamp.
    */
   async restore(id: string): Promise<void> {
-    const { error } = await supabase.from('schools').update({ deleted_at: null }).eq('id', id);
+    const { error } = await supabase
+      .from('schools')
+      .update({ deleted_at: null } satisfies SchoolUpdate)
+      .eq('id', id);
 
     if (error) {
       throw new Error(`Failed to restore school: ${error.message}`);
@@ -104,7 +111,10 @@ export const schoolService = {
    * Toggles the active status of a school.
    */
   async toggleStatus(id: string, isActive: boolean): Promise<void> {
-    const { error } = await supabase.from('schools').update({ is_active: isActive }).eq('id', id);
+    const { error } = await supabase
+      .from('schools')
+      .update({ is_active: isActive } satisfies SchoolUpdate)
+      .eq('id', id);
 
     if (error) {
       throw new Error(`Failed to update school status: ${error.message}`);

@@ -4,3 +4,5 @@
 export { AuthProvider, useAuth } from './authContext';
 export type { AuthContextValue } from './authContext';
 
+export { LoginRoute } from './loginRoute';
+export { ProtectedRoute } from './protectedRoute';

@@ -1,12 +1,12 @@
 // Permission guard component — conditionally renders children based on permissions.
 
-import type { ReactNode } from 'react';
-import type { RolePermissions } from '@budi/types';
-import { useAuth } from '@core/auth';
+import type { PermissionKey } from '@budi/utils/permissions';
 import { hasPermission } from '@budi/utils/permissions';
+import { useAuth } from '@core/auth';
+import type { ReactNode } from 'react';
 
 interface RequirePermissionProps {
-  permission: keyof RolePermissions;
+  permission: PermissionKey;
   fallback?: ReactNode;
   children: ReactNode;
 }
@@ -15,7 +15,11 @@ interface RequirePermissionProps {
  * Renders children only if the current user has the specified permission.
  * Optionally renders a fallback component when permission is denied.
  */
-export function RequirePermission({ permission, fallback = null, children }: RequirePermissionProps) {
+export function RequirePermission({
+  permission,
+  fallback = null,
+  children,
+}: RequirePermissionProps) {
   const { role } = useAuth();
 
   if (!role) return <>{fallback}</>;
@@ -23,4 +27,3 @@ export function RequirePermission({ permission, fallback = null, children }: Req
 
   return <>{children}</>;
 }
-

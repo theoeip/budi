@@ -33,7 +33,7 @@ function getDefaultValues(overrides?: Partial<SchoolFormValues>): SchoolFormValu
  * Pre-populates values when editing an existing school.
  */
 export function useSchoolForm(defaultValues?: Partial<SchoolFormValues>) {
-  return useForm<SchoolFormValues>({
+  return useForm({
     resolver: zodResolver(schoolFormSchema),
     defaultValues: getDefaultValues(defaultValues),
   });

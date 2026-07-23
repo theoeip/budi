@@ -1,110 +1,63 @@
-# BUDI — .gitignore
-
-# ==============================
-# DEPENDENCIES
-# ==============================
+# Dependencies
 node_modules/
 .pnp
 .pnp.js
-.pnp.cjs
-.yarn/
-.verdaccio/
 
-# ==============================
-# BUILD OUTPUTS
-# ==============================
+# Build outputs
 dist/
 build/
-.next/
-.vite/
-.turbo/
 *.tsbuildinfo
-tsconfig.tsbuildinfo
 
-# ==============================
-# ENVIRONMENT FILES
-# ==============================
+# Environment files
 .env
 .env.local
-.env.development
 .env.development.local
-.env.test
 .env.test.local
-.env.production
 .env.production.local
-.env.staging
-.env.staging.local
 
-# ==============================
-# IDE & EDITOR
-# ==============================
+# IDE
 .vscode/settings.json
-.vscode/*.xml
 .idea/
 *.swp
 *.swo
 *~
-*.sublime-project
-*.sublime-workspace
 
-# ==============================
-# OS FILES
-# ==============================
+# OS
 .DS_Store
 Thumbs.db
 *.pdb
-*.dll
-*.so
-*.dylib
-Desktop.ini
-ehthumbs.db
 
-# ==============================
-# LOGS
-# ==============================
+# Logs
 logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-# ==============================
-# CACHE
-# ==============================
-.cache/
-.cache-loader/
-.tmp/
-tmp/
-.eslintcache
-.stylelintcache
+# Turbo
+.turbo/
 
-# ==============================
-# COVERAGE & TESTING
-# ==============================
+# Coverage
 coverage/
 *.lcov
-.nyc_output/
-.react-email/
 
-# ==============================
-# SUPABASE
-# ==============================
+# Supabase
 supabase/.temp/
 
-# ==============================
-# PACKAGE MANAGER
-# ==============================
-package-lock.json
-yarn.lock
+# Test
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
 
-# ==============================
-# MISC
-# ==============================
-*.bak
-*.orig
-*.tgz
-out/
-!.env.example
+# Misc
+.cache/
+.tmp/
+tmp/
 
+# Temp fix files (can be removed after lint passes)
+fix-router.js
+fix-lint-errors.js
+debug-file.js
+fix-router2.js

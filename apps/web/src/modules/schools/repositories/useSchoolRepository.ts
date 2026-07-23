@@ -1,9 +1,12 @@
 // School Management — TanStack Query Repository
 // Provides React hooks for school data operations with caching and optimistic updates.
 
-import type { School } from '@budi/types';
+import type { Database } from '@budi/types/supabase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { schoolService } from '../services/schoolService';
+
+type SchoolInsert = Database['public']['Tables']['schools']['Insert'];
+type SchoolUpdate = Database['public']['Tables']['schools']['Update'];
 
 const SCHOOL_QUERY_KEY = ['schools'] as const;
 const SCHOOL_DETAIL_KEY = (id: string) => ['schools', id] as const;
@@ -36,7 +39,7 @@ export function useCreateSchool() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (input: Partial<School>) => schoolService.create(input),
+    mutationFn: (input: SchoolInsert) => schoolService.create(input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: SCHOOL_QUERY_KEY });
     },
@@ -50,7 +53,7 @@ export function useUpdateSchool() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, input }: { id: string; input: Partial<School> }) =>
+    mutationFn: ({ id, input }: { id: string; input: SchoolUpdate }) =>
       schoolService.update(id, input),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: SCHOOL_QUERY_KEY });

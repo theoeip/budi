@@ -7,7 +7,7 @@ import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 export function LoginPage() {
-  const { signIn, isLoading: _authLoading } = useAuth();
+  const { signIn } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

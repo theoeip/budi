@@ -1,11 +1,13 @@
 // Dashboard Layout — Reusable authenticated application shell
 // Responsible ONLY for layout structure: Header, Sidebar, Content.
 // Does NOT know which page is being rendered.
-// Navigation is generated from @budi/config/navigation via PermissionService.
+// Navigation is generated from ModuleRegistry via PermissionService.
+// SINGLE SOURCE OF TRUTH: ModuleRegistry owns all navigation definitions.
 
-import { NAV_ITEMS, type NavItem } from '@budi/config';
 import { cn } from '@budi/utils';
 import { useAuth } from '@core/auth';
+import type { ModuleNavItem } from '@core/modules';
+import { moduleRegistry } from '@core/modules';
 import { useTheme } from '@core/theme';
 import { useMemo, useState, type ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -123,7 +125,7 @@ function resolveIcon(iconName: string): ReactNode {
 // Navigation Filtering via PermissionService
 // ============================================================
 
-function filterNavItems(items: NavItem[], role: string | null): NavItem[] {
+function filterNavItems(items: ModuleNavItem[], role: string | null): ModuleNavItem[] {
   if (!role) return [];
   return items
     .filter((item) => permissionService.hasAnyRole(role as never, item.roles))
@@ -140,7 +142,7 @@ function filterNavItems(items: NavItem[], role: string | null): NavItem[] {
 // ============================================================
 
 interface SidebarProps {
-  navItems: NavItem[];
+  navItems: ModuleNavItem[];
   currentPath: string;
   onItemClick?: () => void;
 }
@@ -457,7 +459,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const navItems = useMemo(() => filterNavItems(NAV_ITEMS, role), [role]);
+  const navItems = useMemo(
+    () => filterNavItems([...moduleRegistry.getModuleNavItems()] as ModuleNavItem[], role),
+    [role],
+  );
 
   const handleLogout = async () => {
     await signOut();

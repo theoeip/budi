@@ -1,8 +1,11 @@
 // Dashboard Configuration — Widget definitions and layout configuration
 // Responsible ONLY for widget definitions, NOT navigation.
-// Navigation is managed by @budi/config/navigation.
+// Navigation is managed by the ModuleRegistry.
+// Widgets are now collected from enabled modules via ModuleRegistry.
+// Legacy DASHBOARD_WIDGETS is derived from module definitions for compatibility.
 
 import type { UserRole } from '@budi/types';
+import { moduleRegistry } from '@core/modules';
 
 /** Dashboard widget size */
 export type WidgetSize = 'full' | 'half' | 'third' | 'twoThirds';
@@ -26,52 +29,56 @@ export interface WidgetDefinition {
 }
 
 /**
- * Dashboard page configuration.
- * Defines which widgets appear on the dashboard and their layout.
- * Widgets are filtered by PermissionService at render time.
+ * Legacy DASHBOARD_WIDGETS — derived from the Dashboard module definition.
+ * This is NOT an independent source of truth.
+ * The ModuleRegistry is the single source of truth for all widgets.
+ *
+ * This export exists only for backward compatibility with code that
+ * imports DASHBOARD_WIDGETS directly. New code should use getSortedWidgets().
  */
-export const DASHBOARD_WIDGETS: WidgetDefinition[] = [
-  {
-    id: 'userSummary',
-    title: 'Current User',
-    description: 'Authenticated user profile information',
-    size: 'third',
-    permissionKey: '',
-    roles: [],
-    order: 1,
-  },
-  {
-    id: 'schoolSummary',
-    title: 'School Context',
-    description: 'Current school and role information',
-    size: 'third',
-    permissionKey: '',
-    roles: [],
-    order: 2,
-  },
-  {
-    id: 'permissionSummary',
-    title: 'Permissions',
-    description: 'Current role-based permission summary',
-    size: 'third',
-    permissionKey: '',
-    roles: [],
-    order: 3,
-  },
-  {
-    id: 'systemStatus',
-    title: 'System Status',
-    description: 'Application version and environment information',
-    size: 'full',
-    permissionKey: '',
-    roles: [],
-    order: 4,
-  },
-];
+export const DASHBOARD_WIDGETS: WidgetDefinition[] = (() => {
+  const dashboardModule = moduleRegistry.getModule('dashboard');
+  if (dashboardModule && dashboardModule.widgets.length > 0) {
+    return dashboardModule.widgets.map((w) => ({
+      id: w.id,
+      title: w.title,
+      description: w.description ?? '',
+      size: w.size as WidgetSize,
+      permissionKey: w.permissionKey,
+      roles: [...w.roles] as UserRole[],
+      order: w.order,
+    }));
+  }
+  return [];
+})();
+
+/**
+ * Get widgets from ModuleRegistry.
+ * Falls back to legacy DASHBOARD_WIDGETS if ModuleRegistry is not yet loaded.
+ */
+export function getWidgetsFromModules(): WidgetDefinition[] {
+  const moduleWidgets = moduleRegistry.getModuleWidgets();
+
+  // If ModuleRegistry is loaded and has widgets, use them
+  if (moduleWidgets.length > 0) {
+    return moduleWidgets.map((w) => ({
+      id: w.id,
+      title: w.title,
+      description: w.description,
+      size: w.size as WidgetSize,
+      permissionKey: w.permissionKey,
+      roles: [...w.roles] as UserRole[],
+      order: w.order,
+    }));
+  }
+
+  // Fallback to legacy widgets
+  return [...DASHBOARD_WIDGETS];
+}
 
 /** Get widgets sorted by order */
 export function getSortedWidgets(): WidgetDefinition[] {
-  return [...DASHBOARD_WIDGETS].sort((a, b) => a.order - b.order);
+  return getWidgetsFromModules().sort((a, b) => a.order - b.order);
 }
 
 /** Map widget size to Tailwind grid column class */

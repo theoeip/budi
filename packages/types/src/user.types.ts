@@ -3,7 +3,15 @@
 import type { SchoolProfile } from './school.types';
 
 /** User roles in the BUDI platform */
-export type UserRole = 'super_admin' | 'school_admin' | 'treasurer' | 'viewer';
+export type UserRole =
+  | 'super_admin'
+  | 'school_admin'
+  | 'teacher'
+  | 'staff'
+  | 'student'
+  | 'parent'
+  | 'treasurer'
+  | 'viewer';
 
 /** User profile linked to Supabase auth */
 export interface UserProfile {

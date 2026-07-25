@@ -1,12 +1,15 @@
 // Auth Context — Authentication state management
 // Handles session management, auto-login, role resolution, and school context.
 // Delegates all Supabase Auth operations to AuthRepository.
+// Resolves application user profiles from UserRepository (database-backed),
+// NOT from Supabase user_metadata.
 
 import type { RolePermissions, SchoolProfile, UserProfile, UserRole } from '@budi/types';
 import { getRolePermissions } from '@budi/utils/permissions';
-import type { Session, User } from '@supabase/supabase-js';
+import type { User } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import { authRepository } from '../../repositories/authRepository';
+import { userRepository } from '../../repositories/userRepository';
 
 /**
  * Authentication context value interface.
@@ -31,31 +34,67 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-function mapSupabaseUserToProfile(user: User, _session: Session | null): UserProfile | null {
-  if (!user) return null;
+/**
+ * Resolve a UserProfile from UserRepository for a given authenticated user ID.
+ * Falls back to a minimal auth-derived profile if the application database
+ * profile is not yet available (e.g., the trigger hasn't completed).
+ */
+async function resolveProfile(
+  authUserId: string,
+  sessionUser: User,
+): Promise<{ profile: UserProfile | null; error: string | null }> {
+  const result = await userRepository.getUserProfileWithContext(authUserId);
 
-  const metadata = user.user_metadata ?? {};
-  const role = (metadata.role as UserRole) ?? 'viewer';
+  if (result.data) {
+    return { profile: result.data, error: null };
+  }
 
+  // Fallback to minimal auth-derived profile when DB profile is not ready yet.
+  // This avoids breaking the auth flow during the brief window between
+  // signup and the `handle_new_user()` trigger completion.
   return {
-    id: user.id,
-    email: user.email ?? '',
-    full_name: (metadata.full_name as string) ?? user.email ?? '',
-    role,
-    school_id: (metadata.school_id as string) ?? null,
-    avatar_url: (metadata.avatar_url as string) ?? null,
-    phone: (metadata.phone as string) ?? null,
-    is_active: true,
-    last_sign_in_at: user.last_sign_in_at ?? null,
-    created_at: user.created_at,
-    updated_at: user.updated_at ?? user.created_at,
+    profile: {
+      id: authUserId,
+      email: sessionUser.email ?? '',
+      full_name: sessionUser.email ?? '',
+      role: 'viewer',
+      school_id: null,
+      avatar_url: null,
+      phone: null,
+      is_active: true,
+      last_sign_in_at: sessionUser.last_sign_in_at ?? null,
+      created_at: sessionUser.created_at,
+      updated_at: sessionUser.updated_at ?? sessionUser.created_at,
+    },
+    error: result.error,
   };
+}
+
+/**
+ * Resolve the user's school relationships from UserRepository.
+ * Used by both initial load and super_admin school listing.
+ */
+async function resolveUserSchoolContext(
+  authUserId: string,
+): Promise<{ school: SchoolProfile | null; schools: SchoolProfile[] }> {
+  // Get all school memberships
+  const schoolsResult = await userRepository.getUserSchools(authUserId);
+  const schools = schoolsResult.data ?? [];
+
+  // Try to get the default school
+  const defaultResult = await userRepository.getDefaultSchool(authUserId);
+
+  // Fallback to first school if no default
+  const school = defaultResult.data ?? schools[0] ?? null;
+
+  return { school, schools };
 }
 
 /**
  * Authentication provider — wraps the application with AuthContext.
  * Handles session persistence, auto-login, and role resolution.
  * All Supabase Auth communication goes through AuthRepository.
+ * Application user profiles are resolved from the database via UserRepository.
  */
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -68,11 +107,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const role: UserRole | null = user?.role ?? null;
   const permissions: RolePermissions | null = role ? getRolePermissions(role) : null;
 
-  // Resolve schools for super admin
-  const resolveUserSchools = useCallback(async (_user: User) => {
-    // TODO: Fetch schools from DB when available
-    // For now, placeholder
-    setUserSchools([]);
+  // Resolve user profile and school context from the database
+  const resolveUserContext = useCallback(async (authUser: User) => {
+    // Resolve application profile from UserRepository
+    const { profile } = await resolveProfile(authUser.id, authUser);
+    setUser(profile);
+
+    // Resolve school relationships
+    if (profile) {
+      const { school: resolvedSchool, schools } = await resolveUserSchoolContext(profile.id);
+      setSchool(resolvedSchool);
+      setUserSchools(schools);
+    }
   }, []);
 
   // Sign in with email and password
@@ -86,20 +132,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
 
         if (result.session) {
-          const profile = mapSupabaseUserToProfile(result.session.user, result.session);
-          setUser(profile);
-
-          // If super admin, resolve schools
-          if (profile?.role === 'super_admin') {
-            await resolveUserSchools(result.session.user);
-          } else if (profile?.school_id) {
-            setSchool({
-              id: profile.school_id,
-              name: profile.full_name,
-              slug: profile.school_id,
-              logo_url: null,
-            });
-          }
+          await resolveUserContext(result.session.user);
         }
 
         return {};
@@ -107,7 +140,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         return { error: 'An unexpected error occurred. Please try again.' };
       }
     },
-    [resolveUserSchools],
+    [resolveUserContext],
   );
 
   // Sign out
@@ -145,19 +178,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         } = await authRepository.getSession();
 
         if (session && mounted) {
-          const profile = mapSupabaseUserToProfile(session.user, session);
-          setUser(profile);
-
-          if (profile?.role === 'super_admin') {
-            await resolveUserSchools(session.user);
-          } else if (profile?.school_id) {
-            setSchool({
-              id: profile.school_id,
-              name: profile.full_name,
-              slug: profile.school_id,
-              logo_url: null,
-            });
-          }
+          await resolveUserContext(session.user);
         }
       } catch {
         // Session invalid, stay unauthenticated
@@ -175,19 +196,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (!mounted) return;
 
       if (session) {
-        const profile = mapSupabaseUserToProfile(session.user, session);
-        setUser(profile);
-
-        if (profile?.role === 'super_admin') {
-          await resolveUserSchools(session.user);
-        } else if (profile?.school_id) {
-          setSchool({
-            id: profile.school_id,
-            name: profile.full_name,
-            slug: profile.school_id,
-            logo_url: null,
-          });
-        }
+        await resolveUserContext(session.user);
       } else {
         setUser(null);
         setSchool(null);
@@ -201,7 +210,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [resolveUserSchools]);
+  }, [resolveUserContext]);
 
   const contextValue: AuthContextValue = {
     user,

@@ -2,6 +2,7 @@
 // Uses React Router v7 with lazy loading for code splitting.
 
 import { LoginRoute, ProtectedRoute } from '@core/auth';
+import { DashboardLayout } from '@core/dashboard/dashboardLayout';
 import { lazy, Suspense, type ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { RootRedirect } from './rootRedirect';
@@ -84,7 +85,9 @@ export function AppRouter(): ReactNode {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <DashboardPage />
+              <DashboardLayout>
+                <DashboardPage />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />

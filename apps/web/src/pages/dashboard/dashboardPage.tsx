@@ -1,61 +1,148 @@
-// Dashboard Page — Main application dashboard
-// Placeholder page showing the basic layout. Will be built out with actual content.
+// Dashboard Page — Diagnostic Dashboard
+// Composes widgets from dashboard.config.ts using a WidgetRegistry.
+// Role context is gathered once and passed to widgets via props.
+// Sensitive widgets are wrapped with ComponentGuard for permission gating.
 
+import { ROLES } from '@budi/config';
+import { cn } from '@budi/utils';
 import { useAuth } from '@core/auth';
+import { getSortedWidgets, widgetSizeToGridCols } from '@core/dashboard/dashboard.config';
+import { getWidgetComponent } from '@core/dashboard/widgets';
+import { ComponentGuard } from '@core/permissions';
+import { useTheme } from '@core/theme';
+import { useMemo } from 'react';
+
+/**
+ * Map of widget IDs that require a permission guard.
+ * Only widgets listed here will be wrapped with ComponentGuard.
+ * The permission key is the value.
+ */
+const GUARDED_WIDGETS: Record<string, string> = {
+  // Examples of permission-gated widgets:
+  // financeSummary: 'canManageFinance',
+  // settingsSummary: 'canManageUsers',
+};
+
+// Application metadata (resolved at build time via Vite define or import.meta.env)
+const APP_VERSION = '0.1.0';
+const APP_ENV = import.meta.env.MODE ?? 'development';
 
 export default function DashboardPage() {
-  const { user, school } = useAuth();
+  const { user, school, role, permissions, userSchools, isLoading } = useAuth();
+  const { resolvedTheme } = useTheme();
+
+  // Gather context once — passed to all widgets
+  const widgetContext = useMemo(() => {
+    const roleConfig = role ? ROLES[role] : null;
+    const roleLabel = roleConfig?.label ?? role ?? 'Unknown';
+    const roleColor = roleConfig?.color ?? '#6B7280';
+
+    return {
+      user,
+      school,
+      role,
+      roleLabel,
+      roleColor,
+      permissions,
+      userSchoolsCount: userSchools.length,
+      appVersion: APP_VERSION,
+      environment: APP_ENV,
+      lastSignIn: user?.last_sign_in_at ?? null,
+      theme: resolvedTheme,
+      isLoading,
+    };
+  }, [user, school, role, permissions, userSchools, resolvedTheme, isLoading]);
+
+  // Get sorted and filtered widgets from config
+  const widgets = useMemo(() => {
+    return getSortedWidgets();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <div className="text-center">
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent" />
+          <p className="mt-3 text-sm text-gray-500">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="space-y-6">
       {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {school?.name ? `Welcome, ${school.name}` : 'Dashboard'}
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">
+          {widgetContext.school?.name ? `${widgetContext.school.name} Dashboard` : 'Dashboard'}
         </h1>
-        <p className="mt-2 text-gray-600">
-          {user ? `Logged in as ${user.full_name}` : 'BUDI School Management Platform'}
+        <p className="mt-1 text-sm text-gray-500">
+          {widgetContext.user?.full_name
+            ? `Welcome back, ${widgetContext.user.full_name}`
+            : 'Welcome to BUDI School Management Platform'}
         </p>
       </div>
 
-      {/* Quick Stats Placeholder */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Income" value="—" color="green" />
-        <StatCard title="Total Expense" value="—" color="red" />
-        <StatCard title="Pending" value="—" color="yellow" />
-        <StatCard title="Balance" value="—" color="blue" />
+      {/* Widget Grid */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        {widgets.map((widgetDef) => {
+          const WidgetComponent = getWidgetComponent(widgetDef.id);
+
+          if (!WidgetComponent) {
+            return (
+              <div
+                key={widgetDef.id}
+                className={cn(
+                  'rounded-lg border-2 border-dashed border-gray-200 p-6 text-center',
+                  widgetSizeToGridCols(widgetDef.size),
+                )}
+              >
+                <p className="text-sm text-gray-400">
+                  Widget &ldquo;{widgetDef.id}&rdquo; not registered
+                </p>
+              </div>
+            );
+          }
+
+          const guardPermission = GUARDED_WIDGETS[widgetDef.id];
+
+          const widgetElement = (
+            <div key={widgetDef.id} className={widgetSizeToGridCols(widgetDef.size)}>
+              <WidgetComponent {...(widgetContext as Record<string, unknown>)} />
+            </div>
+          );
+
+          // Wrap with permission guard if configured
+          if (guardPermission) {
+            return (
+              <ComponentGuard key={widgetDef.id} permission={guardPermission}>
+                {widgetElement}
+              </ComponentGuard>
+            );
+          }
+
+          return widgetElement;
+        })}
       </div>
 
-      {/* Placeholder Content */}
-      <div className="mt-8 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center">
-        <p className="text-gray-500">Dashboard content will be implemented in future versions.</p>
-        <p className="mt-2 text-sm text-gray-400">
-          Finance module is the active module — check /finance for financial overview.
-        </p>
+      {/* Diagnostics Footer */}
+      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-gray-500">
+          <span>
+            <span className="font-medium text-gray-700">Architecture:</span> Config-driven dashboard
+          </span>
+          <span>
+            <span className="font-medium text-gray-700">Widgets:</span> {widgets.length} loaded
+          </span>
+          <span>
+            <span className="font-medium text-gray-700">Registry:</span> Component-based
+          </span>
+          <span>
+            <span className="font-medium text-gray-700">Permissions:</span> RBAC via
+            PermissionService
+          </span>
+        </div>
       </div>
     </div>
   );
 }
-
-interface StatCardProps {
-  title: string;
-  value: string;
-  color: 'green' | 'red' | 'yellow' | 'blue';
-}
-
-function StatCard({ title, value, color }: StatCardProps) {
-  const colorClasses = {
-    green: 'bg-green-50 text-green-700 border-green-200',
-    red: 'bg-red-50 text-red-700 border-red-200',
-    yellow: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-    blue: 'bg-blue-50 text-blue-700 border-blue-200',
-  };
-
-  return (
-    <div className={`rounded-lg border p-6 ${colorClasses[color]}`}>
-      <p className="text-sm font-medium opacity-75">{title}</p>
-      <p className="mt-2 text-3xl font-bold">{value}</p>
-    </div>
-  );
-}
-

@@ -53,13 +53,13 @@ export function SemesterForm({ initialData, defaultAcademicYearId, onSubmit, onC
     <form id="semester-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-          Academic Year
+          Tahun Ajaran
         </label>
         <select
           {...register('academic_year_id')}
           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:max-w-xs sm:text-sm sm:leading-6"
         >
-          <option value="">Select Academic Year</option>
+          <option value="">Pilih Tahun Ajaran</option>
           {academicYears?.map(ay => (
             <option key={ay.id} value={ay.id}>{ay.name}</option>
           ))}
@@ -70,23 +70,23 @@ export function SemesterForm({ initialData, defaultAcademicYearId, onSubmit, onC
       </div>
 
       <Input
-        label="Semester Name"
+        label="Nama Semester"
         {...register('name')}
         error={errors.name?.message}
-        placeholder="e.g. Fall 2024"
+        placeholder="misal Ganjil 2024"
       />
 
       <div>
         <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-          Term Type
+          Tipe Semester
         </label>
         <select
           {...register('term_type')}
           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:max-w-xs sm:text-sm sm:leading-6"
         >
-          <option value="Odd">Odd</option>
-          <option value="Even">Even</option>
-          <option value="Summer">Summer</option>
+          <option value="Odd">Ganjil</option>
+          <option value="Even">Genap</option>
+          <option value="Summer">Antara (Pendek)</option>
         </select>
         {errors.term_type && (
           <p className="mt-2 text-sm text-red-600">{errors.term_type.message}</p>
@@ -96,13 +96,13 @@ export function SemesterForm({ initialData, defaultAcademicYearId, onSubmit, onC
       <div className="grid grid-cols-2 gap-4">
         <Input
           type="date"
-          label="Start Date"
+          label="Tanggal Mulai"
           {...register('start_date')}
           error={errors.start_date?.message}
         />
         <Input
           type="date"
-          label="End Date"
+          label="Tanggal Selesai"
           {...register('end_date')}
           error={errors.end_date?.message}
         />
@@ -116,16 +116,16 @@ export function SemesterForm({ initialData, defaultAcademicYearId, onSubmit, onC
           className="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-600"
         />
         <label htmlFor="is_active" className="text-sm font-medium text-gray-700">
-          Set as Active Semester
+          Jadikan Semester Aktif
         </label>
       </div>
 
       <div className="flex justify-end gap-3 pt-6">
         <Button variant="secondary" type="button" onClick={onCancel} disabled={isSubmitting}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" isLoading={isSubmitting}>
-          {initialData ? 'Update' : 'Create'}
+          {initialData ? 'Perbarui' : 'Tambah'}
         </Button>
       </div>
     </form>

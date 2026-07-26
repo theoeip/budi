@@ -12,7 +12,7 @@ export const studentsModule: ModuleDefinition = {
   // Navigation — Students link
   navigation: [
     {
-      label: 'Students',
+      label: 'Siswa',
       path: '/students',
       icon: 'Users',
       roles: ['super_admin', 'school_admin'],

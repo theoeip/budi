@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
 export const employeeFormSchema = z.object({
-  full_name: z.string().min(2, 'Name must be at least 2 characters'),
+  full_name: z.string().min(2, 'Nama harus memiliki minimal 2 karakter'),
   employee_number: z.string().optional().nullable(),
   employment_type: z.enum(['Full', 'Part', 'Contract', 'Guest']).optional().nullable(),
   join_date: z.string().optional().nullable(),
-  work_email: z.string().email('Invalid email address').optional().nullable().or(z.literal('')),
+  work_email: z.string().email('Format email tidak valid').optional().nullable().or(z.literal('')),
 });
 
 export type EmployeeFormValues = z.infer<typeof employeeFormSchema>;

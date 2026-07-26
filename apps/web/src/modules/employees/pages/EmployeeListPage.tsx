@@ -62,14 +62,14 @@ export function EmployeeListPage() {
   return (
     <div className="space-y-4">
       <div className="mb-4">
-        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Teachers & Staff</h2>
-        <p className="mt-1 text-sm text-gray-500">Manage school employees and staff members.</p>
+        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Guru & Staf</h2>
+        <p className="mt-1 text-sm text-gray-500">Kelola guru dan staf sekolah.</p>
       </div>
       
       {canManage && (
         <PageToolbar
           onCreate={handleOpenCreate}
-          createLabel="Add Employee"
+          createLabel="Tambah Guru/Staf"
         />
       )}
 
@@ -85,7 +85,7 @@ export function EmployeeListPage() {
       <CrudDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title={selectedEmployee ? 'Edit Employee' : 'Add Employee'}
+        title={selectedEmployee ? 'Edit Guru/Staf' : 'Tambah Guru/Staf'}
       >
         <EmployeeForm
           initialData={selectedEmployee}
@@ -99,8 +99,8 @@ export function EmployeeListPage() {
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={handleDelete}
-        title="Remove Erroneous Record"
-        message="Are you sure you want to completely remove this erroneous record? Note: If this employee simply left the school, use 'Change Status -> Resigned/Archived' instead."
+        title="Hapus Data"
+        message="Apakah Anda yakin ingin menghapus data ini sepenuhnya? Catatan: Jika guru/staf ini hanya keluar dari sekolah, gunakan 'Ubah Status -> Mengundurkan Diri/Arsip'."
         isDeleting={deleteEmployee.isPending}
       />
     </div>

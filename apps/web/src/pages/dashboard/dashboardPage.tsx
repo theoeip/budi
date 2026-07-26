@@ -34,7 +34,7 @@ export default function DashboardPage() {
   // Gather context once — passed to all widgets
   const widgetContext = useMemo(() => {
     const roleConfig = role ? ROLES[role] : null;
-    const roleLabel = roleConfig?.label ?? role ?? 'Unknown';
+    const roleLabel = roleConfig?.label ?? role ?? 'Tidak Diketahui';
     const roleColor = roleConfig?.color ?? '#6B7280';
 
     return {
@@ -63,7 +63,7 @@ export default function DashboardPage() {
       <div className="flex h-64 items-center justify-center">
         <div className="text-center">
           <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-brand-500 border-t-transparent" />
-          <p className="mt-3 text-sm text-gray-500">Loading dashboard...</p>
+          <p className="mt-3 text-sm text-gray-500">Memuat dasbor...</p>
         </div>
       </div>
     );
@@ -74,12 +74,12 @@ export default function DashboardPage() {
       {/* Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">
-          {widgetContext.school?.name ? `${widgetContext.school.name} Dashboard` : 'Dashboard'}
+          {widgetContext.school?.name ? `Dasbor ${widgetContext.school.name}` : 'Dasbor'}
         </h1>
         <p className="mt-1 text-sm text-gray-500">
           {widgetContext.user?.full_name
-            ? `Welcome back, ${widgetContext.user.full_name}`
-            : 'Welcome to BUDI School Management Platform'}
+            ? `Selamat datang kembali, ${widgetContext.user.full_name}`
+            : 'Selamat datang di Platform Manajemen Sekolah BUDI'}
         </p>
       </div>
 
@@ -123,25 +123,6 @@ export default function DashboardPage() {
 
           return widgetElement;
         })}
-      </div>
-
-      {/* Diagnostics Footer */}
-      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-gray-500">
-          <span>
-            <span className="font-medium text-gray-700">Architecture:</span> Config-driven dashboard
-          </span>
-          <span>
-            <span className="font-medium text-gray-700">Widgets:</span> {widgets.length} loaded
-          </span>
-          <span>
-            <span className="font-medium text-gray-700">Registry:</span> Component-based
-          </span>
-          <span>
-            <span className="font-medium text-gray-700">Permissions:</span> RBAC via
-            PermissionService
-          </span>
-        </div>
       </div>
     </div>
   );

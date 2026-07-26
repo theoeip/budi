@@ -38,26 +38,26 @@ export function DepartmentForm({ initialData, onSubmit, onCancel, isSubmitting }
   return (
     <form id="department-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <Input
-        label="Department Code"
+        label="Kode Departemen"
         {...register('code')}
         error={errors.code?.message}
-        placeholder="e.g. SCI"
+        placeholder="misal MIPA"
         disabled={!!initialData} // Usually code is not editable after creation
       />
       <Input
-        label="Department Name"
+        label="Nama Departemen"
         {...register('name')}
         error={errors.name?.message}
-        placeholder="e.g. Science Department"
+        placeholder="misal Departemen MIPA"
       />
 
 
       <div className="flex justify-end gap-3 pt-6">
         <Button variant="secondary" type="button" onClick={onCancel} disabled={isSubmitting}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" isLoading={isSubmitting}>
-          {initialData ? 'Update' : 'Create'}
+          {initialData ? 'Perbarui' : 'Tambah'}
         </Button>
       </div>
     </form>

@@ -54,7 +54,7 @@ function StatusBadge({ isActive }: { isActive: boolean }) {
         className={`h-1.5 w-1.5 rounded-full ${isActive ? 'bg-green-600' : 'bg-red-600'}`}
         aria-hidden="true"
       />
-      {isActive ? 'Active' : 'Inactive'}
+      {isActive ? 'Aktif' : 'Tidak Aktif'}
     </span>
   );
 }
@@ -110,8 +110,8 @@ function EmptyState() {
           d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
         />
       </svg>
-      <p className="text-sm font-medium text-gray-900">No schools found</p>
-      <p className="mt-1 text-sm text-gray-500">Get started by creating a new school.</p>
+      <p className="text-sm font-medium text-gray-900">Tidak ada sekolah ditemukan</p>
+      <p className="mt-1 text-sm text-gray-500">Mulai dengan membuat sekolah baru.</p>
     </div>
   );
 }
@@ -137,7 +137,7 @@ function ErrorState({ message }: { message: string }) {
           d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
         />
       </svg>
-      <p className="text-sm font-medium text-red-800">Failed to load schools</p>
+      <p className="text-sm font-medium text-red-800">Gagal memuat sekolah</p>
       <p className="mt-1 text-sm text-red-600">{message}</p>
     </div>
   );
@@ -153,7 +153,7 @@ function LoadingBody() {
       <td colSpan={7} className="px-4 py-16 text-center">
         <div className="flex flex-col items-center justify-center">
           <Spinner size="md" />
-          <p className="mt-3 text-sm text-gray-500">Loading schools...</p>
+          <p className="mt-3 text-sm text-gray-500">Memuat sekolah...</p>
         </div>
       </td>
     </tr>
@@ -174,7 +174,7 @@ export function SchoolTable({ schools, isLoading, isError, error }: SchoolTableP
         {/* Header */}
         <thead className="bg-gray-50">
           <tr>
-            {['School Name', 'Code', 'Level', 'City', 'Province', 'Status', 'Created At'].map(
+            {['Nama Sekolah', 'Kode', 'Jenjang', 'Kota', 'Provinsi', 'Status', 'Dibuat Pada'].map(
               (heading) => (
                 <th
                   key={heading}
@@ -195,7 +195,7 @@ export function SchoolTable({ schools, isLoading, isError, error }: SchoolTableP
           {isError && (
             <tr>
               <td colSpan={7} className="px-4 py-8">
-                <ErrorState message={error?.message ?? 'An unexpected error occurred.'} />
+                <ErrorState message={error?.message ?? 'Terjadi kesalahan yang tidak terduga.'} />
               </td>
             </tr>
           )}

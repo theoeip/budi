@@ -54,13 +54,13 @@ export function ClassForm({ initialData, defaultAcademicYearId, onSubmit, onCanc
     <form id="class-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-          Academic Year
+          Tahun Ajaran
         </label>
         <select
           {...register('academic_year_id')}
           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:text-sm sm:leading-6"
         >
-          <option value="">Select Academic Year</option>
+          <option value="">Pilih Tahun Ajaran</option>
           {academicYears?.map(ay => (
             <option key={ay.id} value={ay.id}>{ay.name}</option>
           ))}
@@ -72,13 +72,13 @@ export function ClassForm({ initialData, defaultAcademicYearId, onSubmit, onCanc
 
       <div>
         <label className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-          Department (Optional)
+          Departemen (Opsional)
         </label>
         <select
           {...register('department_id')}
           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:text-sm sm:leading-6"
         >
-          <option value="">No Department</option>
+          <option value="">Tanpa Departemen</option>
           {departments?.map(dept => (
             <option key={dept.id} value={dept.id}>{dept.name}</option>
           ))}
@@ -86,22 +86,22 @@ export function ClassForm({ initialData, defaultAcademicYearId, onSubmit, onCanc
       </div>
 
       <Input
-        label="Class Name"
+        label="Nama Kelas"
         {...register('name')}
         error={errors.name?.message}
-        placeholder="e.g. 10 Science A"
+        placeholder="misal 10 MIPA A"
       />
 
       <div className="grid grid-cols-2 gap-4">
         <Input
           type="number"
-          label="Grade Level"
+          label="Tingkat"
           {...register('grade_level', { valueAsNumber: true })}
           error={errors.grade_level?.message}
         />
         <Input
           type="number"
-          label="Capacity"
+          label="Kapasitas"
           {...register('capacity', { valueAsNumber: true })}
           error={errors.capacity?.message}
         />
@@ -109,18 +109,18 @@ export function ClassForm({ initialData, defaultAcademicYearId, onSubmit, onCanc
 
       <Input
         type="number"
-        label="Sort Order"
+        label="Urutan"
         {...register('sort_order', { valueAsNumber: true })}
         error={errors.sort_order?.message}
-        placeholder="e.g. 10"
+        placeholder="misal 10"
       />
 
       <div className="flex justify-end gap-3 pt-6">
         <Button variant="secondary" type="button" onClick={onCancel} disabled={isSubmitting}>
-          Cancel
+          Batal
         </Button>
         <Button type="submit" isLoading={isSubmitting}>
-          {initialData ? 'Update' : 'Create'}
+          {initialData ? 'Perbarui' : 'Tambah'}
         </Button>
       </div>
     </form>

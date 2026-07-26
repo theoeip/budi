@@ -55,8 +55,8 @@ function SearchBar({ value, onChange }: SearchBarProps) {
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Search by school name or code…"
-        aria-label="Search schools"
+        placeholder="Cari berdasarkan nama atau kode sekolah…"
+        aria-label="Cari sekolah"
         className="block w-full rounded-lg border border-gray-300 bg-white py-2 pl-10 pr-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
       />
     </div>
@@ -73,8 +73,8 @@ function ResultsSummary({ total, filtered }: { total: number; filtered: number }
   return (
     <p className="text-sm text-gray-500">
       {filtered === total
-        ? `${total} school${total !== 1 ? 's' : ''} total`
-        : `Showing ${filtered} of ${total} schools`}
+        ? `Total ${total} sekolah`
+        : `Menampilkan ${filtered} dari ${total} sekolah`}
     </p>
   );
 }
@@ -101,13 +101,13 @@ export function SchoolListPage() {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">School Management</h1>
-        <p className="mt-1 text-sm text-gray-600">Manage school tenants in the BUDI platform.</p>
+        <h1 className="text-2xl font-bold text-gray-900">Manajemen Sekolah</h1>
+        <p className="mt-1 text-sm text-gray-600">Kelola tenant sekolah di platform BUDI.</p>
       </div>
 
       <Card>
         <CardHeader
-          title="Schools"
+          title="Sekolah"
           action={<SearchBar value={searchQuery} onChange={setSearchQuery} />}
         />
         <CardContent>

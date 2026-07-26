@@ -16,56 +16,56 @@ export const ROLES: Record<UserRole, RoleConfig> = {
   super_admin: {
     role: 'super_admin',
     label: 'Super Admin',
-    description: 'Full system access across all schools',
+    description: 'Akses penuh ke semua sekolah',
     level: 100,
     color: '#EF4444', // Red
   },
   school_admin: {
     role: 'school_admin',
-    label: 'School Admin',
-    description: 'Full access within their school',
+    label: 'Admin Sekolah',
+    description: 'Akses penuh di dalam sekolah',
     level: 90,
     color: '#3B82F6', // Blue
   },
   teacher: {
     role: 'teacher',
-    label: 'Teacher',
-    description: 'Teaching staff managing classes and academic content',
+    label: 'Guru',
+    description: 'Staf pengajar yang mengelola kelas dan akademik',
     level: 80,
     color: '#8B5CF6', // Purple
   },
   staff: {
     role: 'staff',
-    label: 'Staff',
-    description: 'Administrative and operational staff',
+    label: 'Staf',
+    description: 'Staf administrasi dan operasional',
     level: 70,
     color: '#F59E0B', // Amber
   },
   student: {
     role: 'student',
-    label: 'Student',
-    description: 'Enrolled student with learning access',
+    label: 'Siswa',
+    description: 'Siswa terdaftar',
     level: 60,
     color: '#06B6D4', // Cyan
   },
   parent: {
     role: 'parent',
-    label: 'Parent',
-    description: 'Parent or guardian of a student',
+    label: 'Orang Tua',
+    description: 'Orang tua atau wali siswa',
     level: 50,
     color: '#EC4899', // Pink
   },
   treasurer: {
     role: 'treasurer',
-    label: 'Treasurer',
-    description: 'Finance module access within their school',
+    label: 'Bendahara',
+    description: 'Akses modul keuangan sekolah',
     level: 65,
     color: '#10B981', // Green
   },
   viewer: {
     role: 'viewer',
-    label: 'Viewer',
-    description: 'Read-only access within their school',
+    label: 'Pengamat',
+    description: 'Akses hanya lihat di dalam sekolah',
     level: 10,
     color: '#6B7280', // Gray
   },

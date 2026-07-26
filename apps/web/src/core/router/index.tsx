@@ -12,7 +12,7 @@ function PlaceholderPage({ title }: { title: string }) {
     <div className="flex h-screen items-center justify-center">
       <div className="text-center">
         <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
-        <p className="mt-2 text-gray-500">Module under development</p>
+        <p className="mt-2 text-gray-500">Modul sedang dikembangkan</p>
       </div>
     </div>
   );
@@ -20,7 +20,7 @@ function PlaceholderPage({ title }: { title: string }) {
 
 const DashboardPage = lazy(() =>
   import('../../pages/dashboard/dashboardPage').catch(() => ({
-    default: () => <PlaceholderPage title="Dashboard" />,
+    default: () => <PlaceholderPage title="Dasbor" />,
   })),
 );
 const LoginPage = lazy(() =>
@@ -63,7 +63,7 @@ const EmployeeDetailsPage = lazy(() =>
 );
 const FinanceOverview = lazy(() =>
   import('../../modules/finance/dashboard/financeDashboard').catch(() => ({
-    default: () => <PlaceholderPage title="Finance Overview" />,
+    default: () => <PlaceholderPage title="Ringkasan Keuangan" />,
   })),
 );
 
@@ -169,7 +169,9 @@ export function AppRouter(): ReactNode {
           path="/finance"
           element={
             <ProtectedRoute>
-              <FinanceOverview />
+              <DashboardLayout>
+                <FinanceOverview />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />

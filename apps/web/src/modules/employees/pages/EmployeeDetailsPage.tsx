@@ -30,18 +30,18 @@ export function EmployeeDetailsPage() {
   const { data: profile } = useEmployeeProfile(id!);
   const updateProfile = useUpdateEmployeeProfile();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!employee) return <div>Employee not found</div>;
+  if (isLoading) return <div>Memuat...</div>;
+  if (!employee) return <div>Guru/Staf tidak ditemukan</div>;
 
   const tabs = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'personal', label: 'Personal Data' },
-    { id: 'departments', label: 'Departments' },
-    { id: 'capabilities', label: 'Capabilities' },
+    { id: 'overview', label: 'Ringkasan' },
+    { id: 'personal', label: 'Data Pribadi' },
+    { id: 'departments', label: 'Departemen' },
+    { id: 'capabilities', label: 'Kemampuan' },
   ];
 
   if (canManage) {
-    tabs.push({ id: 'hr', label: 'HR Records' });
+    tabs.push({ id: 'hr', label: 'Catatan SDM' });
   }
 
   const handleProfileSubmit = async (data: Record<string, unknown>) => {
@@ -53,7 +53,7 @@ export function EmployeeDetailsPage() {
       <div className="mb-4 flex items-center justify-between">
         <div>
           <button onClick={() => navigate('/employees')} className="text-sm text-indigo-600 hover:text-indigo-900 mb-2">
-            &larr; Back to Directory
+            &larr; Kembali ke Daftar
           </button>
           <div className="flex items-center space-x-4">
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
@@ -61,7 +61,7 @@ export function EmployeeDetailsPage() {
             </h2>
             <EmployeeStatusBadge status={employee.employment_status as EmploymentStatus} />
           </div>
-          <p className="mt-1 text-sm text-gray-500">Employee No: {employee.employee_number || '-'}</p>
+          <p className="mt-1 text-sm text-gray-500">No Pegawai: {employee.employee_number || '-'}</p>
         </div>
         
         {canManage && (
@@ -70,7 +70,7 @@ export function EmployeeDetailsPage() {
               onClick={() => setIsStatusDialogOpen(true)}
               className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Change Status
+              Ubah Status
             </button>
           </div>
         )}

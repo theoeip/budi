@@ -15,19 +15,19 @@ interface PermissionEntry {
 }
 
 const PERMISSION_LABELS: Record<string, string> = {
-  canManageSchools: 'Manage Schools',
-  canManageUsers: 'Manage Users',
-  canManageFinance: 'Manage Finance',
-  canManageAcademic: 'Manage Academic',
-  canViewReports: 'View Reports',
-  canExportData: 'Export Data',
+  canManageSchools: 'Kelola Sekolah',
+  canManageUsers: 'Kelola Pengguna',
+  canManageFinance: 'Kelola Keuangan',
+  canManageAcademic: 'Kelola Akademik',
+  canViewReports: 'Lihat Laporan',
+  canExportData: 'Ekspor Data',
 };
 
 export function PermissionSummaryWidget({ permissions, roleLabel }: PermissionSummaryWidgetProps) {
   if (!permissions) {
     return (
       <Card>
-        <CardHeader title="Permissions" description="No permissions data available" />
+        <CardHeader title="Hak Akses" description="Data hak akses tidak tersedia" />
       </Card>
     );
   }
@@ -44,8 +44,8 @@ export function PermissionSummaryWidget({ permissions, roleLabel }: PermissionSu
   return (
     <Card>
       <CardHeader
-        title="Permissions"
-        description={`${roleLabel} — ${grantedCount} granted, ${deniedCount} restricted`}
+        title="Hak Akses"
+        description={`${roleLabel} — ${grantedCount} diizinkan, ${deniedCount} tidak diizinkan`}
       />
       <CardContent>
         <div className="space-y-1">
@@ -66,7 +66,7 @@ export function PermissionSummaryWidget({ permissions, roleLabel }: PermissionSu
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
-                  Granted
+                  Diizinkan
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-red-500">
@@ -79,7 +79,7 @@ export function PermissionSummaryWidget({ permissions, roleLabel }: PermissionSu
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                  Restricted
+                  Tidak Diizinkan
                 </span>
               )}
             </div>

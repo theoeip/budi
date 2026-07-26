@@ -10,10 +10,10 @@ export const studentProfileSchema = z.object({
 });
 
 export const studentSchema = z.object({
-  nis: z.string().min(1, 'NIS is required'),
+  nis: z.string().min(1, 'NIS wajib diisi'),
   nisn: z.string().optional().nullable(),
   status: z.enum(['Active', 'Suspended', 'Withdrawn', 'Transferred', 'Graduated', 'Dropped Out']).default('Active'),
-  admission_date: z.string().min(1, 'Admission date is required'),
+  admission_date: z.string().min(1, 'Tanggal masuk wajib diisi'),
 });
 
 export const createStudentSchema = z.object({
@@ -27,9 +27,9 @@ export const updateStudentSchema = z.object({
 });
 
 export const guardianSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  phone: z.string().min(1, 'Phone is required'),
-  email: z.string().email('Invalid email').optional().nullable(),
+  name: z.string().min(1, 'Nama wajib diisi'),
+  phone: z.string().min(1, 'Telepon wajib diisi'),
+  email: z.string().email('Format email tidak valid').optional().nullable(),
   address: z.string().optional().nullable(),
 });
 
@@ -44,15 +44,15 @@ export const createAndLinkGuardianSchema = z.object({
 });
 
 export const classEnrollmentSchema = z.object({
-  class_id: z.string().uuid('Class is required'),
-  academic_year_id: z.string().uuid('Academic Year is required'),
-  enrollment_date: z.string().min(1, 'Enrollment date is required'),
+  class_id: z.string().uuid('Kelas wajib diisi'),
+  academic_year_id: z.string().uuid('Tahun Akademik wajib diisi'),
+  enrollment_date: z.string().min(1, 'Tanggal pendaftaran wajib diisi'),
   enrollment_reason: z.string().optional().nullable(),
 });
 
 export const withdrawEnrollmentSchema = z.object({
-  exit_date: z.string().min(1, 'Exit date is required'),
-  exit_reason: z.string().min(1, 'Exit reason is required'),
+  exit_date: z.string().min(1, 'Tanggal keluar wajib diisi'),
+  exit_reason: z.string().min(1, 'Alasan keluar wajib diisi'),
 });
 
 export type StudentFormValues = z.infer<typeof createStudentSchema>;

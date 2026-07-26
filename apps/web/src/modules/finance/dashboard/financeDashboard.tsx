@@ -4,22 +4,22 @@
 export default function FinanceDashboard() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold text-gray-900">Finance Overview</h1>
-      <p className="mt-2 text-gray-600">Financial summary and key performance indicators.</p>
+      <h1 className="text-3xl font-bold text-gray-900">Ringkasan Keuangan</h1>
+      <p className="mt-2 text-gray-600">Ringkasan keuangan dan indikator kinerja utama.</p>
 
       {/* Summary Cards Placeholder */}
       <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <SummaryCard title="Total Income" value="Rp 0" trend="up" />
-        <SummaryCard title="Total Expense" value="Rp 0" trend="down" />
-        <SummaryCard title="Net Balance" value="Rp 0" trend="neutral" />
-        <SummaryCard title="Pending" value="0" trend="neutral" />
+        <SummaryCard title="Total Pemasukan" value="Rp 0" trend="up" />
+        <SummaryCard title="Total Pengeluaran" value="Rp 0" trend="down" />
+        <SummaryCard title="Saldo Bersih" value="Rp 0" trend="neutral" />
+        <SummaryCard title="Tertunda" value="0" trend="neutral" />
       </div>
 
       {/* Content Placeholder */}
       <div className="mt-8 rounded-lg border-2 border-dashed border-gray-300 p-12 text-center">
-        <p className="text-gray-500">Finance dashboard charts and detailed metrics coming soon.</p>
+        <p className="text-gray-500">Grafik dan metrik detail keuangan akan segera hadir.</p>
         <p className="mt-2 text-sm text-gray-400">
-          Transaction management, categories, and reports are available in sub-menu items.
+          (Fitur Manajemen Transaksi, Kategori, dan Laporan sedang dalam tahap pengembangan)
         </p>
       </div>
     </div>

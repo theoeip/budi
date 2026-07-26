@@ -20,11 +20,11 @@ export function LoginPage() {
 
     // Validation
     if (!email.trim()) {
-      setError('Email is required');
+      setError('Email wajib diisi');
       return;
     }
     if (!password) {
-      setError('Password is required');
+      setError('Kata sandi wajib diisi');
       return;
     }
 
@@ -47,8 +47,8 @@ export function LoginPage() {
       <Card padding="lg">
         {/* Header */}
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
-          <p className="mt-2 text-sm text-gray-600">Sign in to your BUDI account to continue</p>
+          <h1 className="text-2xl font-bold text-gray-900">Selamat Datang Kembali</h1>
+          <p className="mt-2 text-sm text-gray-600">Masuk ke akun BUDI Anda untuk melanjutkan</p>
         </div>
 
         {/* Error Alert */}
@@ -63,7 +63,7 @@ export function LoginPage() {
           <Input
             label="Email"
             type="email"
-            placeholder="Enter your email"
+            placeholder="Masukkan email Anda"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
@@ -72,9 +72,9 @@ export function LoginPage() {
           />
 
           <Input
-            label="Password"
+            label="Kata Sandi"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Masukkan kata sandi Anda"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
@@ -87,18 +87,18 @@ export function LoginPage() {
                 type="checkbox"
                 className="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
               />
-              Remember me
+              Ingat saya
             </label>
             <Link
               to="/auth/forgot-password"
               className="text-sm font-medium text-brand-600 hover:text-brand-500"
             >
-              Forgot password?
+              Lupa kata sandi?
             </Link>
           </div>
 
           <Button type="submit" size="lg" isLoading={isSubmitting} className="w-full">
-            Sign In
+            Masuk
           </Button>
         </form>
       </Card>

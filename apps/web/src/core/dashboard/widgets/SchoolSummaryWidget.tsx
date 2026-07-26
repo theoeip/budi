@@ -18,11 +18,11 @@ export function SchoolSummaryWidget({
 }: SchoolSummaryWidgetProps) {
   return (
     <Card>
-      <CardHeader title="School Context" description="Current school and role" />
+      <CardHeader title="Informasi Sekolah" description="Sekolah dan peran saat ini" />
       <CardContent className="space-y-4">
         {/* Role Badge */}
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">Current Role</span>
+          <span className="text-sm text-gray-500">Peran Saat Ini</span>
           <span
             className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium text-white"
             style={{ backgroundColor: roleColor }}
@@ -35,22 +35,22 @@ export function SchoolSummaryWidget({
         <div className="space-y-2 rounded-lg bg-gray-50 p-3">
           {school ? (
             <>
-              <DetailRow label="School Name" value={school.name} />
-              <DetailRow label="School Slug" value={school.slug} />
-              <DetailRow label="School ID" value={school.id.substring(0, 8) + '...'} />
+              <DetailRow label="Nama Sekolah" value={school.name} />
+              <DetailRow label="Slug Sekolah" value={school.slug} />
+              <DetailRow label="ID Sekolah" value={school.id.substring(0, 8) + '...'} />
             </>
           ) : (
-            <p className="text-sm text-gray-500 italic">No school assigned</p>
+            <p className="text-sm text-gray-500 italic">Belum ada sekolah yang ditetapkan</p>
           )}
         </div>
 
         {/* Multi-school info */}
         <div className="text-xs text-gray-500">
           {userSchoolsCount > 1
-            ? `${userSchoolsCount} schools available — use School Selector to switch`
+            ? `${userSchoolsCount} sekolah tersedia — gunakan Pemilih Sekolah untuk mengganti`
             : userSchoolsCount === 1
-              ? 'Single school access'
-              : 'No school memberships'}
+              ? 'Akses satu sekolah'
+              : 'Tidak ada keanggotaan sekolah'}
         </div>
       </CardContent>
     </Card>

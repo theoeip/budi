@@ -36,13 +36,13 @@ export function EmployeeCapabilitiesSection({ employeeId, canManage }: EmployeeC
       )}
 
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">Capabilities</h3>
+        <h3 className="text-lg font-medium leading-6 text-gray-900">Kemampuan</h3>
         {canManage && (
           <button
             onClick={() => setIsDialogOpen(true)}
             className="inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200"
           >
-            Grant Capability
+            Beri Kemampuan
           </button>
         )}
       </div>
@@ -50,7 +50,7 @@ export function EmployeeCapabilitiesSection({ employeeId, canManage }: EmployeeC
       <div className="overflow-hidden bg-white shadow sm:rounded-md border border-gray-200">
         <ul role="list" className="divide-y divide-gray-200">
           {(!capabilities || capabilities.length === 0) ? (
-            <li className="px-4 py-4 sm:px-6 text-sm text-gray-500">No capabilities granted.</li>
+            <li className="px-4 py-4 sm:px-6 text-sm text-gray-500">Tidak ada kemampuan yang diberikan.</li>
           ) : (
             capabilities.map((cap) => (
               <li key={cap.capability} className="px-4 py-4 sm:px-6 flex items-center justify-between">
@@ -61,7 +61,7 @@ export function EmployeeCapabilitiesSection({ employeeId, canManage }: EmployeeC
                     disabled={revokeCapability.isPending}
                     className="text-red-600 hover:text-red-900 text-sm font-medium disabled:opacity-50"
                   >
-                    Revoke
+                    Cabut
                   </button>
                 )}
               </li>

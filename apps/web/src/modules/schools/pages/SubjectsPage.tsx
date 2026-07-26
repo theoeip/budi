@@ -83,7 +83,7 @@ export function SubjectsPage() {
     item.code.toLowerCase().includes(search.toLowerCase())
   ) || [];
 
-  if (isLoading) return <LoadingState message="Loading subjects..." />;
+  if (isLoading) return <LoadingState message="Memuat mata pelajaran..." />;
   if (error) return <ErrorState message={error.message} onRetry={() => refetch()} />;
 
   return (
@@ -91,17 +91,17 @@ export function SubjectsPage() {
       <PageToolbar
         onSearch={setSearch}
         searchQuery={search}
-        searchPlaceholder="Search subjects by name or code..."
+        searchPlaceholder="Cari mata pelajaran berdasarkan nama atau kode..."
         onCreate={handleCreate}
-        createLabel="New Subject"
+        createLabel="Tambah Mata Pelajaran"
         onRefresh={() => refetch()}
       />
 
       {!items?.length ? (
         <EmptyState
-          title="No Subjects"
-          description="Get started by creating your first subject in the curriculum."
-          actionLabel="Create Subject"
+          title="Belum Ada Mata Pelajaran"
+          description="Mulai dengan membuat mata pelajaran pertama dalam kurikulum."
+          actionLabel="Tambah Mata Pelajaran"
           onAction={handleCreate}
         />
       ) : (
@@ -111,12 +111,12 @@ export function SubjectsPage() {
           columns={[
             {
               key: 'code',
-              header: 'Code',
+              header: 'Kode',
               cell: (item) => <span className="font-mono text-sm text-gray-600">{item.code}</span>,
             },
             {
               key: 'name',
-              header: 'Name',
+              header: 'Nama',
               cell: (item) => <span className="font-medium text-gray-900">{item.name}</span>,
             },
 
@@ -133,7 +133,7 @@ export function SubjectsPage() {
                   <ActionMenu
                     items={[
                       { label: 'Edit', onClick: () => handleEdit(item) },
-                      { label: 'Delete', onClick: () => handleDeleteClick(item), destructive: true },
+                      { label: 'Hapus', onClick: () => handleDeleteClick(item), destructive: true },
                     ]}
                   />
                 </div>
@@ -146,7 +146,7 @@ export function SubjectsPage() {
       <CrudDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title={selectedItem ? 'Edit Subject' : 'New Subject'}
+        title={selectedItem ? 'Edit Mata Pelajaran' : 'Tambah Mata Pelajaran'}
       >
         <SubjectForm
           initialData={selectedItem}
@@ -160,8 +160,8 @@ export function SubjectsPage() {
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={onConfirmDelete}
-        title="Delete Subject"
-        message={`Are you sure you want to delete ${selectedItem?.name}?`}
+        title="Hapus Mata Pelajaran"
+        message={`Apakah Anda yakin ingin menghapus ${selectedItem?.name}?`}
         isDeleting={deleteMutation.isPending}
       />
     </div>

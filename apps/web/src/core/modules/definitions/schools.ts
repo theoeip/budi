@@ -16,16 +16,16 @@ export const schoolsModule: ModuleDefinition = {
   // Navigation — Schools link
   navigation: [
     {
-      label: 'Schools',
+      label: 'Sekolah',
       path: '/schools',
       icon: 'Landmark',
       roles: ['super_admin', 'school_admin'],
       children: [
-        { label: 'Academic Years', path: '/schools/academic-years', icon: 'Calendar', roles: ['super_admin', 'school_admin'] },
-        { label: 'Semesters', path: '/schools/semesters', icon: 'Calendar', roles: ['super_admin', 'school_admin'] },
-        { label: 'Departments', path: '/schools/departments', icon: 'Building', roles: ['super_admin', 'school_admin'] },
-        { label: 'Classes', path: '/schools/classes', icon: 'Users', roles: ['super_admin', 'school_admin'] },
-        { label: 'Subjects', path: '/schools/subjects', icon: 'BookOpen', roles: ['super_admin', 'school_admin'] }
+        { label: 'Tahun Ajaran', path: '/schools/academic-years', icon: 'Calendar', roles: ['super_admin', 'school_admin'] },
+        { label: 'Semester', path: '/schools/semesters', icon: 'Calendar', roles: ['super_admin', 'school_admin'] },
+        { label: 'Departemen', path: '/schools/departments', icon: 'Building', roles: ['super_admin', 'school_admin'] },
+        { label: 'Kelas', path: '/schools/classes', icon: 'Users', roles: ['super_admin', 'school_admin'] },
+        { label: 'Mata Pelajaran', path: '/schools/subjects', icon: 'BookOpen', roles: ['super_admin', 'school_admin'] }
       ]
     },
   ],

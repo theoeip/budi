@@ -16,17 +16,18 @@ export const financeModule: ModuleDefinition = {
   // Navigation — Finance menu with children
   navigation: [
     {
-      label: 'Finance',
+      label: 'Keuangan',
       path: '/finance',
       icon: 'Wallet',
       roles: ['super_admin', 'school_admin', 'treasurer'],
       children: [
         {
-          label: 'Overview',
+          label: 'Ringkasan',
           path: '/finance',
           icon: 'BarChart3',
           roles: ['super_admin', 'school_admin', 'treasurer'],
         },
+        /* Features not yet implemented in this phase
         {
           label: 'Transactions',
           path: '/finance/transactions',
@@ -57,6 +58,7 @@ export const financeModule: ModuleDefinition = {
           icon: 'Settings',
           roles: ['super_admin', 'school_admin'],
         },
+        */
       ],
     },
   ],

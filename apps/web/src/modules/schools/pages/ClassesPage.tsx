@@ -86,7 +86,7 @@ export function ClassesPage() {
     item.name.toLowerCase().includes(search.toLowerCase())
   ) || [];
 
-  if (isAyLoading) return <LoadingState message="Loading context..." />;
+  if (isAyLoading) return <LoadingState message="Memuat konteks..." />;
   if (error) return <ErrorState message={error.message} onRetry={() => refetch()} />;
 
   const customFilter = (
@@ -96,7 +96,7 @@ export function ClassesPage() {
         onChange={(e) => setSelectedAyId(e.target.value)}
         className="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-brand-600 sm:text-sm sm:leading-6"
       >
-        <option value="" disabled>Select Academic Year</option>
+        <option value="" disabled>Pilih Tahun Ajaran</option>
         {academicYears?.map(ay => (
           <option key={ay.id} value={ay.id}>{ay.name}</option>
         ))}
@@ -109,20 +109,20 @@ export function ClassesPage() {
       <PageToolbar
         onSearch={setSearch}
         searchQuery={search}
-        searchPlaceholder="Search classes..."
+        searchPlaceholder="Cari kelas..."
         onCreate={selectedAyId ? handleCreate : undefined}
-        createLabel="New Class"
+        createLabel="Tambah Kelas"
         onRefresh={() => refetch()}
         customFilters={customFilter}
       />
 
       {isClassLoading ? (
-        <LoadingState message="Loading classes..." />
+        <LoadingState message="Memuat kelas..." />
       ) : !items?.length ? (
         <EmptyState
-          title="No Classes"
-          description={selectedAyId ? "No classes found for this academic year." : "Please select an academic year first."}
-          actionLabel={selectedAyId ? "Create Class" : undefined}
+          title="Belum Ada Kelas"
+          description={selectedAyId ? "Tidak ada kelas untuk tahun ajaran ini." : "Silakan pilih tahun ajaran terlebih dahulu."}
+          actionLabel={selectedAyId ? "Tambah Kelas" : undefined}
           onAction={handleCreate}
         />
       ) : (
@@ -132,18 +132,18 @@ export function ClassesPage() {
           columns={[
             {
               key: 'name',
-              header: 'Class Name',
+              header: 'Nama Kelas',
               cell: (item) => <span className="font-medium text-gray-900">{item.name}</span>,
             },
             {
               key: 'grade',
-              header: 'Grade',
-              cell: (item) => <span className="text-gray-500">Grade {item.grade_level}</span>,
+              header: 'Tingkat',
+              cell: (item) => <span className="text-gray-500">Tingkat {item.grade_level}</span>,
             },
             {
               key: 'capacity',
-              header: 'Capacity',
-              cell: (item) => <span className="text-gray-500">{item.capacity} students</span>,
+              header: 'Kapasitas',
+              cell: (item) => <span className="text-gray-500">{item.capacity} siswa</span>,
             },
             {
               key: 'actions',
@@ -153,7 +153,7 @@ export function ClassesPage() {
                   <ActionMenu
                     items={[
                       { label: 'Edit', onClick: () => handleEdit(item) },
-                      { label: 'Delete', onClick: () => handleDeleteClick(item), destructive: true },
+                      { label: 'Hapus', onClick: () => handleDeleteClick(item), destructive: true },
                     ]}
                   />
                 </div>
@@ -166,7 +166,7 @@ export function ClassesPage() {
       <CrudDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title={selectedItem ? 'Edit Class' : 'New Class'}
+        title={selectedItem ? 'Edit Kelas' : 'Tambah Kelas'}
       >
         <ClassForm
           initialData={selectedItem}
@@ -181,8 +181,8 @@ export function ClassesPage() {
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={onConfirmDelete}
-        title="Delete Class"
-        message={`Are you sure you want to delete ${selectedItem?.name}?`}
+        title="Hapus Kelas"
+        message={`Apakah Anda yakin ingin menghapus ${selectedItem?.name}?`}
         isDeleting={deleteMutation.isPending}
       />
     </div>

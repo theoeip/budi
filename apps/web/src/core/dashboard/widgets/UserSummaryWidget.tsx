@@ -13,7 +13,7 @@ export function UserSummaryWidget({ user, roleLabel, roleColor }: UserSummaryWid
   if (!user) {
     return (
       <Card>
-        <CardHeader title="Current User" description="Not authenticated" />
+        <CardHeader title="Pengguna Saat Ini" description="Belum masuk" />
       </Card>
     );
   }
@@ -22,7 +22,7 @@ export function UserSummaryWidget({ user, roleLabel, roleColor }: UserSummaryWid
 
   return (
     <Card>
-      <CardHeader title="Current User" description="Authenticated user profile" />
+      <CardHeader title="Pengguna Saat Ini" description="Profil pengguna yang sedang masuk" />
       <CardContent className="space-y-4">
         {/* Avatar + Name */}
         <div className="flex items-center gap-4">
@@ -40,10 +40,10 @@ export function UserSummaryWidget({ user, roleLabel, roleColor }: UserSummaryWid
 
         {/* Details */}
         <div className="space-y-2 rounded-lg bg-gray-50 p-3">
-          <DetailRow label="Role" value={roleLabel} />
-          <DetailRow label="User ID" value={user.id.substring(0, 8) + '...'} />
-          <DetailRow label="Phone" value={user.phone ?? '—'} />
-          <DetailRow label="Status" value={user.is_active ? 'Active' : 'Inactive'} />
+          <DetailRow label="Peran" value={roleLabel} />
+          <DetailRow label="ID Pengguna" value={user.id.substring(0, 8) + '...'} />
+          <DetailRow label="Telepon" value={user.phone ?? '—'} />
+          <DetailRow label="Status" value={user.is_active ? 'Aktif' : 'Tidak Aktif'} />
         </div>
       </CardContent>
     </Card>

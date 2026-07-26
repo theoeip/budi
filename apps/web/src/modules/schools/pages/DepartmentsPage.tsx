@@ -78,7 +78,7 @@ export function DepartmentsPage() {
     item.code.toLowerCase().includes(search.toLowerCase())
   ) || [];
 
-  if (isLoading) return <LoadingState message="Loading departments..." />;
+  if (isLoading) return <LoadingState message="Memuat departemen..." />;
   if (error) return <ErrorState message={error.message} onRetry={() => refetch()} />;
 
   return (
@@ -86,17 +86,17 @@ export function DepartmentsPage() {
       <PageToolbar
         onSearch={setSearch}
         searchQuery={search}
-        searchPlaceholder="Search departments..."
+        searchPlaceholder="Cari departemen..."
         onCreate={handleCreate}
-        createLabel="New Department"
+        createLabel="Tambah Departemen"
         onRefresh={() => refetch()}
       />
 
       {!items?.length ? (
         <EmptyState
-          title="No Departments"
-          description="Get started by creating your first academic department."
-          actionLabel="Create Department"
+          title="Belum Ada Departemen"
+          description="Mulai dengan membuat departemen akademik pertama."
+          actionLabel="Tambah Departemen"
           onAction={handleCreate}
         />
       ) : (
@@ -106,12 +106,12 @@ export function DepartmentsPage() {
           columns={[
             {
               key: 'code',
-              header: 'Code',
+              header: 'Kode',
               cell: (item) => <span className="font-mono text-sm text-gray-600">{item.code}</span>,
             },
             {
               key: 'name',
-              header: 'Name',
+              header: 'Nama',
               cell: (item) => <span className="font-medium text-gray-900">{item.name}</span>,
             },
             {
@@ -122,7 +122,7 @@ export function DepartmentsPage() {
                   <ActionMenu
                     items={[
                       { label: 'Edit', onClick: () => handleEdit(item) },
-                      { label: 'Delete', onClick: () => handleDeleteClick(item), destructive: true },
+                      { label: 'Hapus', onClick: () => handleDeleteClick(item), destructive: true },
                     ]}
                   />
                 </div>
@@ -135,7 +135,7 @@ export function DepartmentsPage() {
       <CrudDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title={selectedItem ? 'Edit Department' : 'New Department'}
+        title={selectedItem ? 'Edit Departemen' : 'Tambah Departemen'}
       >
         <DepartmentForm
           initialData={selectedItem}
@@ -149,8 +149,8 @@ export function DepartmentsPage() {
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={onConfirmDelete}
-        title="Delete Department"
-        message={`Are you sure you want to delete ${selectedItem?.name}?`}
+        title="Hapus Departemen"
+        message={`Apakah Anda yakin ingin menghapus ${selectedItem?.name}?`}
         isDeleting={deleteMutation.isPending}
       />
     </div>

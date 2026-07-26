@@ -12,7 +12,7 @@ interface StudentFormProps {
   onCancel: () => void;
 }
 
-export function StudentForm({ initialData, onSubmit }: StudentFormProps) {
+export function StudentForm({ initialData, onSubmit, isLoading, onCancel }: StudentFormProps) {
   const {
     register,
     handleSubmit,
@@ -48,10 +48,10 @@ export function StudentForm({ initialData, onSubmit }: StudentFormProps) {
   return (
     <form id="student-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium leading-6 text-gray-900">Student Information</h3>
+        <h3 className="text-lg font-medium leading-6 text-gray-900">Informasi Siswa</h3>
         <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
           <Input
-            label="NIS (School ID)"
+            label="NIS"
             {...register('student.nis')}
             error={errors.student?.nis?.message}
           />
@@ -61,7 +61,7 @@ export function StudentForm({ initialData, onSubmit }: StudentFormProps) {
             error={errors.student?.nisn?.message}
           />
           <Input
-            label="Admission Date"
+            label="Tanggal Masuk"
             type="date"
             {...register('student.admission_date')}
             error={errors.student?.admission_date?.message}
@@ -72,60 +72,78 @@ export function StudentForm({ initialData, onSubmit }: StudentFormProps) {
               {...register('student.status')}
               className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-brand-500 focus:outline-none focus:ring-brand-500 sm:text-sm"
             >
-              <option value="Active">Active</option>
-              <option value="Suspended">Suspended</option>
-              <option value="Withdrawn">Withdrawn</option>
-              <option value="Transferred">Transferred</option>
-              <option value="Graduated">Graduated</option>
-              <option value="Dropped Out">Dropped Out</option>
+              <option value="Active">Aktif</option>
+              <option value="Suspended">Diskor</option>
+              <option value="Withdrawn">Mengundurkan Diri</option>
+              <option value="Transferred">Pindah</option>
+              <option value="Graduated">Lulus</option>
+              <option value="Dropped Out">Dikeluarkan</option>
             </select>
           </div>
         </div>
       </div>
 
       <div className="pt-6">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">Profile Information</h3>
+        <h3 className="text-lg font-medium leading-6 text-gray-900">Informasi Profil</h3>
         <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Gender</label>
+            <label className="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
             <select
               {...register('profile.gender')}
               className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-brand-500 focus:outline-none focus:ring-brand-500 sm:text-sm"
             >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              <option value="">Pilih Jenis Kelamin</option>
+              <option value="Male">Laki-laki</option>
+              <option value="Female">Perempuan</option>
             </select>
           </div>
           <Input
-            label="Date of Birth"
+            label="Tanggal Lahir"
             type="date"
             {...register('profile.date_of_birth')}
             error={errors.profile?.date_of_birth?.message}
           />
           <Input
-            label="Place of Birth"
+            label="Tempat Lahir"
             {...register('profile.place_of_birth')}
             error={errors.profile?.place_of_birth?.message}
           />
           <Input
-            label="Religion"
+            label="Agama"
             {...register('profile.religion')}
             error={errors.profile?.religion?.message}
           />
           <Input
-            label="Blood Group"
+            label="Golongan Darah"
             {...register('profile.blood_group')}
             error={errors.profile?.blood_group?.message}
           />
           <div className="sm:col-span-2">
             <Input
-              label="Address"
+              label="Alamat"
               {...register('profile.address')}
               error={errors.profile?.address?.message}
             />
           </div>
         </div>
+      </div>
+
+      <div className="flex justify-end space-x-3 pt-4 border-t">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          disabled={isLoading}
+        >
+          Batal
+        </button>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+        >
+          {isLoading ? 'Menyimpan...' : 'Simpan'}
+        </button>
       </div>
     </form>
   );

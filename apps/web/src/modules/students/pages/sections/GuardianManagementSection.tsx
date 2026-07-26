@@ -23,14 +23,14 @@ export function GuardianManagementSection({ studentId }: GuardianManagementSecti
   };
 
   const columns = [
-    { key: 'name', header: 'Name', cell: (r: Guardian) => r.name },
-    { key: 'phone', header: 'Phone', cell: (r: Guardian) => r.phone },
+    { key: 'name', header: 'Nama', cell: (r: Guardian) => r.name },
+    { key: 'phone', header: 'Telepon', cell: (r: Guardian) => r.phone },
     { 
       key: 'actions', 
       header: '', 
       cell: (row: Guardian) => (
         <ActionMenu items={[
-          { label: 'Unlink', onClick: () => removeLink.mutate(row.id), destructive: true }
+          { label: 'Lepas Tautan', onClick: () => removeLink.mutate(row.id), destructive: true }
         ]} />
       )
     }
@@ -39,11 +39,11 @@ export function GuardianManagementSection({ studentId }: GuardianManagementSecti
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">Guardians</h3>
-        <button onClick={() => setIsDrawerOpen(true)} className="bg-brand-600 text-white px-4 py-2 rounded-md">Add Guardian</button>
+        <h3 className="text-lg font-medium">Orang Tua/Wali</h3>
+        <button onClick={() => setIsDrawerOpen(true)} className="bg-brand-600 text-white px-4 py-2 rounded-md">Tambah Orang Tua</button>
       </div>
       <DataTable columns={columns} data={guardians || []} keyExtractor={(row) => row.id} />
-      <CrudDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="Add Guardian">
+      <CrudDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="Tambah Orang Tua">
         <GuardianForm onSubmit={handleSubmit} isLoading={createAndLink.isPending} onCancel={() => setIsDrawerOpen(false)} />
       </CrudDrawer>
     </div>

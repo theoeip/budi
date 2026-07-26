@@ -24,11 +24,11 @@ export function EnrollmentHistorySection({ studentId }: EnrollmentHistorySection
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">Enrollment History</h3>
-        <button onClick={() => setIsDrawerOpen(true)} className="bg-brand-600 text-white px-4 py-2 rounded-md">Enroll Student</button>
+        <h3 className="text-lg font-medium">Riwayat Pendaftaran</h3>
+        <button onClick={() => setIsDrawerOpen(true)} className="bg-brand-600 text-white px-4 py-2 rounded-md">Daftarkan Siswa</button>
       </div>
       <EnrollmentTable data={enrollments || []} isLoading={isLoading} />
-      <CrudDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="New Enrollment">
+      <CrudDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title="Pendaftaran Baru">
         <EnrollmentDialog onSubmit={handleSubmit} isLoading={enrollStudent.isPending} onCancel={() => setIsDrawerOpen(false)} />
       </CrudDrawer>
     </div>

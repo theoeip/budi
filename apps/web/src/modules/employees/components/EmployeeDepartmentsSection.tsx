@@ -36,13 +36,13 @@ export function EmployeeDepartmentsSection({ employeeId, canManage }: EmployeeDe
       )}
 
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">Departments</h3>
+        <h3 className="text-lg font-medium leading-6 text-gray-900">Departemen</h3>
         {canManage && (
           <button
             onClick={() => setIsDialogOpen(true)}
             className="inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200"
           >
-            Assign Department
+            Tambah Departemen
           </button>
         )}
       </div>
@@ -50,7 +50,7 @@ export function EmployeeDepartmentsSection({ employeeId, canManage }: EmployeeDe
       <div className="overflow-hidden bg-white shadow sm:rounded-md border border-gray-200">
         <ul role="list" className="divide-y divide-gray-200">
           {(!assignments || assignments.length === 0) ? (
-            <li className="px-4 py-4 sm:px-6 text-sm text-gray-500">Not assigned to any departments.</li>
+            <li className="px-4 py-4 sm:px-6 text-sm text-gray-500">Belum ditugaskan ke departemen mana pun.</li>
           ) : (
             assignments.map((assignment) => (
               <li key={assignment.department_id} className="px-4 py-4 sm:px-6 flex items-center justify-between">
@@ -58,7 +58,7 @@ export function EmployeeDepartmentsSection({ employeeId, canManage }: EmployeeDe
                   <span className="text-sm font-medium text-gray-900">Department ID: {assignment.department_id}</span>
                   {assignment.is_head_of_department && (
                     <span className="ml-2 inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                      Head of Department
+                      Kepala Departemen
                     </span>
                   )}
                 </div>
@@ -72,7 +72,7 @@ export function EmployeeDepartmentsSection({ employeeId, canManage }: EmployeeDe
                       disabled={removeDept.isPending}
                       className="text-red-600 hover:text-red-900 text-sm font-medium disabled:opacity-50"
                     >
-                      Remove
+                      Hapus
                     </button>
                   </div>
                 )}

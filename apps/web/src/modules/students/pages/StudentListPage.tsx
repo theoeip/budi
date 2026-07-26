@@ -57,12 +57,12 @@ export function StudentListPage() {
   return (
     <div className="space-y-4">
       <div className="mb-4">
-        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Students</h2>
-        <p className="mt-1 text-sm text-gray-500">Manage all enrolled students in the school</p>
+        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Siswa</h2>
+        <p className="mt-1 text-sm text-gray-500">Kelola semua siswa yang terdaftar di sekolah</p>
       </div>
       <PageToolbar
         onCreate={handleOpenCreate}
-        createLabel="Add Student"
+        createLabel="Tambah Siswa"
       />
 
       <StudentTable
@@ -76,7 +76,7 @@ export function StudentListPage() {
       <CrudDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title={selectedStudent ? 'Edit Student' : 'Add Student'}
+        title={selectedStudent ? 'Edit Siswa' : 'Tambah Siswa'}
       >
         <StudentForm
           initialData={selectedStudent}
@@ -90,8 +90,8 @@ export function StudentListPage() {
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={handleDelete}
-        title="Archive Student"
-        message="Are you sure you want to archive this student? This action can be reversed by restoring them later."
+        title="Arsipkan Siswa"
+        message="Apakah Anda yakin ingin mengarsipkan siswa ini? Tindakan ini dapat dibatalkan dengan memulihkannya nanti."
         isDeleting={deleteStudent.isPending}
       />
     </div>

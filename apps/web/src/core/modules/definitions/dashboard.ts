@@ -19,7 +19,7 @@ export const dashboardModule: ModuleDefinition = {
   // Navigation — Dashboard link
   navigation: [
     {
-      label: 'Dashboard',
+      label: 'Dasbor',
       path: '/dashboard',
       icon: 'LayoutDashboard',
       roles: ['super_admin', 'school_admin', 'treasurer', 'viewer'],
@@ -54,15 +54,6 @@ export const dashboardModule: ModuleDefinition = {
       permissionKey: '',
       roles: [],
       order: 3,
-    },
-    {
-      id: 'systemStatus',
-      title: 'System Status',
-      description: 'Application version and environment information',
-      size: 'full',
-      permissionKey: '',
-      roles: [],
-      order: 4,
     },
   ],
 

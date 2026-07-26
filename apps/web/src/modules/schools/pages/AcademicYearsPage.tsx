@@ -78,7 +78,7 @@ export function AcademicYearsPage() {
     item.name.toLowerCase().includes(search.toLowerCase())
   ) || [];
 
-  if (isLoading) return <LoadingState message="Loading academic years..." />;
+  if (isLoading) return <LoadingState message="Memuat tahun ajaran..." />;
   if (error) return <ErrorState message={error.message} onRetry={() => refetch()} />;
 
   return (
@@ -86,17 +86,17 @@ export function AcademicYearsPage() {
       <PageToolbar
         onSearch={setSearch}
         searchQuery={search}
-        searchPlaceholder="Search academic years..."
+        searchPlaceholder="Cari tahun ajaran..."
         onCreate={handleCreate}
-        createLabel="New Academic Year"
+        createLabel="Tambah Tahun Ajaran"
         onRefresh={() => refetch()}
       />
 
       {!items?.length ? (
         <EmptyState
-          title="No Academic Years"
-          description="Get started by creating your first academic year."
-          actionLabel="Create Academic Year"
+          title="Belum Ada Tahun Ajaran"
+          description="Mulai dengan membuat tahun ajaran pertama."
+          actionLabel="Tambah Tahun Ajaran"
           onAction={handleCreate}
         />
       ) : (
@@ -106,12 +106,12 @@ export function AcademicYearsPage() {
           columns={[
             {
               key: 'name',
-              header: 'Name',
+              header: 'Nama',
               cell: (item) => <span className="font-medium text-gray-900">{item.name}</span>,
             },
             {
               key: 'dates',
-              header: 'Period',
+              header: 'Periode',
               cell: (item) => (
                 <span className="text-gray-500">
                   {new Date(item.start_date).toLocaleDateString()} - {new Date(item.end_date).toLocaleDateString()}
@@ -131,7 +131,7 @@ export function AcademicYearsPage() {
                   <ActionMenu
                     items={[
                       { label: 'Edit', onClick: () => handleEdit(item) },
-                      { label: 'Delete', onClick: () => handleDeleteClick(item), destructive: true },
+                      { label: 'Hapus', onClick: () => handleDeleteClick(item), destructive: true },
                     ]}
                   />
                 </div>
@@ -144,7 +144,7 @@ export function AcademicYearsPage() {
       <CrudDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title={selectedItem ? 'Edit Academic Year' : 'New Academic Year'}
+        title={selectedItem ? 'Edit Tahun Ajaran' : 'Tambah Tahun Ajaran'}
       >
         <AcademicYearForm
           initialData={selectedItem}
@@ -158,8 +158,8 @@ export function AcademicYearsPage() {
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={onConfirmDelete}
-        title="Delete Academic Year"
-        message={`Are you sure you want to delete ${selectedItem?.name}? This action cannot be undone.`}
+        title="Hapus Tahun Ajaran"
+        message={`Apakah Anda yakin ingin menghapus ${selectedItem?.name}? Tindakan ini tidak dapat dibatalkan.`}
         isDeleting={deleteMutation.isPending}
       />
     </div>

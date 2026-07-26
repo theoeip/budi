@@ -20,9 +20,14 @@ class AuthRepository {
     });
 
     if (error) {
+      // Supabase sometimes returns empty JSON "{}" as message on 500 errors
+      let errorMessage = error.message;
+      if (!errorMessage || errorMessage === '{}' || typeof errorMessage !== 'string') {
+        errorMessage = 'Invalid email or password. Please try again.';
+      }
       return {
         session: null,
-        error: error.message,
+        error: errorMessage,
       };
     }
 

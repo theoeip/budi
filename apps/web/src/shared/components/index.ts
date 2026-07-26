@@ -6,3 +6,5 @@ export { Button } from './ui/button';
 export { Card, CardContent, CardFooter, CardHeader } from './ui/card';
 export { Input } from './ui/input';
 export { PageSpinner, Spinner } from './ui/spinner';
+
+export * from './data';

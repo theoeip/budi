@@ -19,7 +19,14 @@ export const schoolsModule: ModuleDefinition = {
       label: 'Schools',
       path: '/schools',
       icon: 'Landmark',
-      roles: ['super_admin'],
+      roles: ['super_admin', 'school_admin'],
+      children: [
+        { label: 'Academic Years', path: '/schools/academic-years', icon: 'Calendar', roles: ['super_admin', 'school_admin'] },
+        { label: 'Semesters', path: '/schools/semesters', icon: 'Calendar', roles: ['super_admin', 'school_admin'] },
+        { label: 'Departments', path: '/schools/departments', icon: 'Building', roles: ['super_admin', 'school_admin'] },
+        { label: 'Classes', path: '/schools/classes', icon: 'Users', roles: ['super_admin', 'school_admin'] },
+        { label: 'Subjects', path: '/schools/subjects', icon: 'BookOpen', roles: ['super_admin', 'school_admin'] }
+      ]
     },
   ],
 
@@ -29,11 +36,34 @@ export const schoolsModule: ModuleDefinition = {
   // Routes — Schools route metadata
   routes: [
     {
-      id: 'schools.list',
-      path: '/schools',
-      componentKey: 'schoolList',
-      roles: ['super_admin'],
-      index: true,
+      id: 'schools.academic-years',
+      path: '/schools/academic-years',
+      componentKey: 'academicYears',
+      roles: ['super_admin', 'school_admin'],
+    },
+    {
+      id: 'schools.semesters',
+      path: '/schools/semesters',
+      componentKey: 'semesters',
+      roles: ['super_admin', 'school_admin'],
+    },
+    {
+      id: 'schools.departments',
+      path: '/schools/departments',
+      componentKey: 'departments',
+      roles: ['super_admin', 'school_admin'],
+    },
+    {
+      id: 'schools.classes',
+      path: '/schools/classes',
+      componentKey: 'classes',
+      roles: ['super_admin', 'school_admin'],
+    },
+    {
+      id: 'schools.subjects',
+      path: '/schools/subjects',
+      componentKey: 'subjects',
+      roles: ['super_admin', 'school_admin'],
     },
   ],
 

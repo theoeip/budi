@@ -1,4 +1,5 @@
-// School Management — Pages index
-
-export { SchoolListPage } from './SchoolListPage';
-export { SchoolsPage } from './schoolsPage';
+export * from './AcademicYearsPage';
+export * from './SemestersPage';
+export * from './DepartmentsPage';
+export * from './ClassesPage';
+export * from './SubjectsPage';

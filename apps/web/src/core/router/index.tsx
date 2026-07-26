@@ -34,10 +34,26 @@ const SchoolSelectorPage = lazy(() =>
     default: m.SchoolSelectorPage,
   })),
 );
-const SchoolsPage = lazy(() =>
-  import('../../modules/schools/pages/SchoolListPage').then((m) => ({
-    default: m.SchoolListPage,
-  })),
+const AcademicYearsPage = lazy(() =>
+  import('../../modules/schools/pages/AcademicYearsPage').then((m) => ({ default: m.AcademicYearsPage }))
+);
+const SemestersPage = lazy(() =>
+  import('../../modules/schools/pages/SemestersPage').then((m) => ({ default: m.SemestersPage }))
+);
+const DepartmentsPage = lazy(() =>
+  import('../../modules/schools/pages/DepartmentsPage').then((m) => ({ default: m.DepartmentsPage }))
+);
+const ClassesPage = lazy(() =>
+  import('../../modules/schools/pages/ClassesPage').then((m) => ({ default: m.ClassesPage }))
+);
+const SubjectsPage = lazy(() =>
+  import('../../modules/schools/pages/SubjectsPage').then((m) => ({ default: m.SubjectsPage }))
+);
+const StudentListPage = lazy(() =>
+  import('../../modules/students/pages/StudentListPage').then((m) => ({ default: m.StudentListPage }))
+);
+const StudentDetailsPage = lazy(() =>
+  import('../../modules/students/pages/StudentDetailsPage').then((m) => ({ default: m.StudentDetailsPage }))
 );
 const FinanceOverview = lazy(() =>
   import('../../modules/finance/dashboard/financeDashboard').catch(() => ({
@@ -91,14 +107,46 @@ export function AppRouter(): ReactNode {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/schools"
-          element={
-            <ProtectedRoute requiredRole={['super_admin']}>
-              <SchoolsPage />
+        <Route path="/schools">
+          <Route index element={<Navigate to="/schools/academic-years" replace />} />
+          <Route path="academic-years" element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin']}>
+              <DashboardLayout><AcademicYearsPage /></DashboardLayout>
             </ProtectedRoute>
-          }
-        />
+          } />
+          <Route path="semesters" element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin']}>
+              <DashboardLayout><SemestersPage /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="departments" element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin']}>
+              <DashboardLayout><DepartmentsPage /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="classes" element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin']}>
+              <DashboardLayout><ClassesPage /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="subjects" element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin']}>
+              <DashboardLayout><SubjectsPage /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+        </Route>
+        <Route path="/students">
+          <Route index element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin']}>
+              <DashboardLayout><StudentListPage /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path=":id" element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin']}>
+              <DashboardLayout><StudentDetailsPage /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+        </Route>
         <Route
           path="/finance"
           element={

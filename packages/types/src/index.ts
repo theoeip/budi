@@ -46,3 +46,5 @@ export interface SoftDeletable {
   deleted_at: string | null;
 }
 
+export * from './academic.types';
+export * from './student.types';

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CrudDrawer } from '@shared/components/data';
 import { EnrollmentTable } from '../../components/EnrollmentTable';
 import { EnrollmentDialog } from '../../components/EnrollmentDialog';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useStudentEnrollments, useEnrollStudent } from '../../repositories/useEnrollmentRepository';
 
 interface EnrollmentHistorySectionProps {

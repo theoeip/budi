@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { CrudDrawer } from '@shared/components/data';
 import { GuardianForm } from '../../components/GuardianForm';

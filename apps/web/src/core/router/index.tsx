@@ -55,6 +55,12 @@ const StudentListPage = lazy(() =>
 const StudentDetailsPage = lazy(() =>
   import('../../modules/students/pages/StudentDetailsPage').then((m) => ({ default: m.StudentDetailsPage }))
 );
+const EmployeeListPage = lazy(() =>
+  import('../../modules/employees/pages/EmployeeListPage').then((m) => ({ default: m.EmployeeListPage }))
+);
+const EmployeeDetailsPage = lazy(() =>
+  import('../../modules/employees/pages/EmployeeDetailsPage').then((m) => ({ default: m.EmployeeDetailsPage }))
+);
 const FinanceOverview = lazy(() =>
   import('../../modules/finance/dashboard/financeDashboard').catch(() => ({
     default: () => <PlaceholderPage title="Finance Overview" />,
@@ -144,6 +150,18 @@ export function AppRouter(): ReactNode {
           <Route path=":id" element={
             <ProtectedRoute requiredRole={['super_admin', 'school_admin']}>
               <DashboardLayout><StudentDetailsPage /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+        </Route>
+        <Route path="/employees">
+          <Route index element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin', 'staff', 'teacher']}>
+              <DashboardLayout><EmployeeListPage /></DashboardLayout>
+            </ProtectedRoute>
+          } />
+          <Route path=":id" element={
+            <ProtectedRoute requiredRole={['super_admin', 'school_admin', 'staff', 'teacher']}>
+              <DashboardLayout><EmployeeDetailsPage /></DashboardLayout>
             </ProtectedRoute>
           } />
         </Route>

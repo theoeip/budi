@@ -48,3 +48,4 @@ export interface SoftDeletable {
 
 export * from './academic.types';
 export * from './student.types';
+export * from './employee.types';
